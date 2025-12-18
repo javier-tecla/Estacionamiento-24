@@ -8,7 +8,7 @@
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ url('/home') }}">Inicio</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Inicio</a></li>
                     <li class="breadcrumb-item active">Ajustes del sistema</li>
                 </ol>
             </div><!-- /.col -->
