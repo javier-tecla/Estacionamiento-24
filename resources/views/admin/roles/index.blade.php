@@ -49,7 +49,7 @@
                                                 <td>{{ $role->name }}</td>
                                                 <td class="d-flex justify-content-center">
                                                     <a href="#" class="btn btn-xs btn-warning mx-1"><i class="fas fa-check"></i> Asignar permisos</a>
-                                                    <a href="#" class="btn btn-xs btn-success mx-1"><i class="fas fa-edit"></i> Editar</a>
+                                                    <a href="{{ url('/admin/rol/'.$role->id.'/edit') }}" class="btn btn-xs btn-success mx-1"><i class="fas fa-edit"></i> Editar</a>
                                                     <a href="#" class="btn btn-xs btn-danger mx-1"><i class="fas fa-trash-alt"></i> Eliminar</a>
                                                 </td>
                                             </tr>
