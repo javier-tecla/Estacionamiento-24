@@ -21,5 +21,6 @@ Route::get('/admin/roles', [App\Http\Controllers\RoleController::class, 'index']
 Route::get('/admin/roles/create', [App\Http\Controllers\RoleController::class, 'create'])->name('admin.roles.create')->middleware('auth');
 Route::post('/adminroles/create', [App\Http\Controllers\RoleController::class, 'store'])->name('admin.roles.store')->middleware('auth');
 Route::get('/admin/rol/{id}/edit', [App\Http\Controllers\RoleController::class, 'edit'])->name('admin.roles.edit')->middleware('auth');
-Route::put('/admin/rol/{id}', [App\Http\controllers\RoleController::class, 'update'])->name('admin.role.update.')->middleware('auth');
+Route::put('/admin/rol/{id}', [App\Http\Controllers\RoleController::class, 'update'])->name('admin.role.update')->middleware('auth');
+Route::delete('/admin/rol/{id}', [App\Http\Controllers\RoleController::class, 'destroy'])->name('admin.role.delete')->middleware('auth');
 
