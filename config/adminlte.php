@@ -307,7 +307,7 @@ return [
 
         // Sidebar items:
 
-        ['header' => 'Menu'],
+        ['header' => 'Menú'],
         [
             'text' => 'Inicio',
             'url' => 'admin',

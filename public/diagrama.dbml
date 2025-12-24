@@ -12,5 +12,28 @@ Table ajustes {
     pagina_web varchar
     created_at timestamp
     updated_at timestamp
+}
 
+Table usuarios {
+    id int [pk, increment]
+    name varchar
+    email varchar
+    password varchar
+    remember_token varchar
+
+    nombres varchar
+    apellidos varchar
+    tipo_documento varchar
+    numero_documento varchar
+    celular varchar
+    fecha_nacimiento date
+    genero varchar
+    direccion text
+    foto varcharh
+    contacto_nombre varchar
+    contacto_telefono varchar
+    contacto_parentesco varchar
+
+    created_at timestamp
+    updated_at timestamp
 }
