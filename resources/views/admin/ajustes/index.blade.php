@@ -53,7 +53,7 @@
                                     </div>
                                     <div class="col-md-7">
                                         <div class="form-group">
-                                            <label for="nombre">Descripción <sup class="text-danger">(*)</sup></label>
+                                            <label for="descripcion">Descripción <sup class="text-danger">(*)</sup></label>
                                             <div class="input-group mb-3">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">

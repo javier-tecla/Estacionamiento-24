@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('descripcion');
             $table->string('sucursal');
             $table->text('direccion');
-            $table->string('telefonos');
+            $table->string('telefono');
             $table->string('logo');
             $table->string('logo_auto');
             $table->string('divisa');

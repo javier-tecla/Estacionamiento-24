@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Ajuste;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -36,6 +37,20 @@ class DatabaseSeeder extends Seeder
             'contacto_parentesco' => 'Amigo',
             'estado' => true,
         
+        ]);
+
+        Ajuste::create([
+            'nombre' => 'Sistema de estacionamiento',
+            'descripcion' => 'Sistema de gestión de estacionamiento',
+            'sucursal' => 'Avellaneda',
+            'direccion' => 'Mitre 1225',
+            'telefono' => '1112345678',
+            'logo' => 's4l85YGt7GNtY8HAuCasptxac3Q6nBqcI2MUQ735.webp',
+            'logo_auto' => 'nVWRt4x89oRlMVJzKq9l1FFk4zfPdbfkY3bleNwd.png',
+            'divisa' => 'AR$',
+            'correo' => 'estacionamiento@24.com',
+            'pagina_web' => 'https://estacionamiento24.com',
+
         ]);
     }
 }
