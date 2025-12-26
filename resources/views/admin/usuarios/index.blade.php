@@ -4,27 +4,28 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Listado de roles</h1>
+                <h1 class="m-0">Listado de usuarios</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Inicio</a></li>
-                    <li class="breadcrumb-item active">Roles</li>
+                    <li class="breadcrumb-item active">Usuarios</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 @stop
 
+
 @section('content')
     <div class="row">
         <div class="col-md-12">
             <div class="card card-outline card-primary">
                 <div class="card-header">
-                    <h3 class="card-title"><b>Roles registrados</b></h3>
+                    <h3 class="card-title"><b>Usuarios registrados</b></h3>
                     <!-- /.card-tools -->
                     <div class="card-tools">
-                        <a href="{{ url('/admin/roles/create') }}" class="btn btn-sm btn-primary"><i
+                        <a href="{{ url('/admin/usuarios/create') }}" class="btn btn-sm btn-primary"><i
                                 class="fas fa-plus"></i> Crear nuevo</a>
                     </div>
                 </div>
@@ -37,28 +38,40 @@
                                     <thead>
                                         <tr>
                                             <th style="width: 10px">Nro</th>
-                                            <th>Nombre del Rol</th>
+                                            <th>Rol del usuario</th>
+                                            <th>Nombres</th>
+                                            <th>Apellidos</th>
+                                            <th>Tipo documento</th>
+                                            <th>Número documento</th>
+                                            <th>Celular</th>
+                                            <th>Estado</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($roles as $role)
+                                        @foreach ($usuarios as $usuario)
                                             <tr>
                                                 <td style="text-align: center">{{ $loop->iteration }}</td>
-                                                <td>{{ $role->name }}</td>
+                                                <td>{{ $usuario->roles->pluck('name')->implode(', ') }}</td>
+                                                <td>{{ $usuario->nombres }}</td>
+                                                <td>{{ $usuario->apellidos }}</td>
+                                                <td>{{ $usuario->tipo_documento }}</td>
+                                                <td>{{ $usuario->numero_documento }}</td>
+                                                <td>{{ $usuario->celular }}</td>
+                                                <td>{{ $usuario->estado }}</td>
                                                 <td class="d-flex justify-content-center">
-                                                    <a href="#" class="btn btn-xs btn-warning mx-1"><i class="fas fa-check"></i> Asignar permisos</a>
-                                                    <a href="{{ url('/admin/rol/'.$role->id.'/edit') }}" class="btn btn-xs btn-success mx-1"><i class="fas fa-edit"></i> Editar</a>
-                                                    <form action="{{ url('/admin/rol/'.$role->id) }}" method="POST"
-                                                        id="miFormulario{{ $role->id }}">
+                                                    <a href="{{ url('/admin/usuario/'.$usuario->id) }}" class="btn btn-info btn-xs mx-1"><i class="fas fa-eye"></i> Ver</a>
+                                                    <a href="{{ url('/admin/usuario/'.$usuario->id.'/edit') }}" class="btn btn-xs btn-success mx-1"><i class="fas fa-edit"></i> Editar</a>
+                                                    <form action="{{ url('/admin/usuario/'.$usuario->id) }}" method="POST"
+                                                        id="miFormulario{{ $usuario->id }}">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn btn-xs" onclick="preguntar{{ $role->id }}(event)">
+                                                        <button type="submit" class="btn btn-danger btn btn-xs" onclick="preguntar{{ $usuario->id }}(event)">
                                                             <i class="fas fa-trash"></i> Eliminar
                                                         </button>
                                                     </form>
                                                     <script>
-                                                        function preguntar{{ $role->id }}(event) {
+                                                        function preguntar{{ $usuario->id }}(event) {
                                                             event.preventDefault();
 
                                                             Swal.fire({
@@ -72,7 +85,7 @@
                                                                 denyButtonText: 'Cancelar',
                                                             }).then((result) => {
                                                                 if(result.isConfirmed) {
-                                                                    document.getElementById('miFormulario{{ $role->id }}').submit();
+                                                                    document.getElementById('miFormulario{{ $usuario->id }}').submit();
                                                                 }
                                                             });
                                                         }
@@ -158,10 +171,10 @@
                 "pageLength": 10,
                 "language": {
                     "emptyTable": "No hay información",
-                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Roles",
-                    "infoEmpty": "Mostrando 0 a 0 de 0 Roles",
-                    "infoFiltered": "(Filtrado de _MAX_ total Roles)",
-                    "lengthMenu": "Mostrar _MENU_ Roles",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Usuarios",
+                    "infoEmpty": "Mostrando 0 a 0 de 0 Usuarios",
+                    "infoFiltered": "(Filtrado de _MAX_ total Usuarios)",
+                    "lengthMenu": "Mostrar _MENU_ Usuarios",
                     "loadingRecords": "Cargando...",
                     "processing": "Procesando...",
                     "search": "Buscador:",

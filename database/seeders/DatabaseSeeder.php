@@ -19,13 +19,15 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        $this->call(RoleSeeder::class);
+
         //super admin
         User::create([
-            'name' => 'Super Admin',
+            'name' => 'Javier Borjas',
             'email' => 'cristman11@gmail.com',
             'password' => Hash::make('123456789'),
-            'nombres' => 'Super',
-            'apellidos' => 'Admin',
+            'nombres' => 'Javier',
+            'apellidos' => 'Borjas',
             'tipo_documento' => 'DNI',
             'numero_documento' => '98765432',
             'celular' => '1123456789',
@@ -36,8 +38,7 @@ class DatabaseSeeder extends Seeder
             'contacto_telefono' => '98765432',
             'contacto_parentesco' => 'Amigo',
             'estado' => true,
-        
-        ]);
+        ])->assignRole('SUPER ADMIN');
 
         Ajuste::create([
             'nombre' => 'Sistema de estacionamiento',

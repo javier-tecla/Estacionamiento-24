@@ -320,6 +320,12 @@ return [
             'icon' => 'fas fa-user-shield',
             'classes' => 'bg-blue text-white',
         ],
+        [
+            'text' => 'Usuarios',
+            'url' => 'admin/usuarios',
+            'icon' => 'fas fa-fw fa-users',
+            'classes' => 'bg-blue text-white',
+        ],
 
         // Sidebar items:
         ['header' => 'Ajustes del sistema'],
