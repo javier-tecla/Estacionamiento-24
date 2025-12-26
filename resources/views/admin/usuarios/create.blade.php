@@ -19,17 +19,19 @@
 @stop
 
 @section('content')
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card card-outline card-primary">
-                <div class="card-header">
-                    <h3 class="card-title"><b>Llene los campos del formulario</b></h3>
-                    <!-- /.card-tools -->
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                    <form action="{{ url('/admin/usuarios/create') }}" method="POST">
-                        @csrf
+
+    <form action="{{ url('/admin/usuarios/create') }}" method="POST">
+        @csrf
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-outline card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title"><b>Llene los campos del formulario</b></h3>
+                        <!-- /.card-tools -->
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -224,99 +226,95 @@
                                 </div>
                             </div>
                         </div>
-
-
-                    </form>
+                    </div>
+                    <!-- /.card-body -->
                 </div>
-                <!-- /.card-body -->
+                <!-- /.card -->
             </div>
-            <!-- /.card -->
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card card-outline card-primary">
-                <div class="card-header">
-                    <h3 class="card-title"><b>Contactos de emergencia</b></h3>
-                    <!-- /.card-tools -->
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="contacto_nombre">Nombre del Contacto de Emergencia <sup
-                                        class="text-danger">(*)</sup></label>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-user-shield"></i></span>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-outline card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title"><b>Contactos de emergencia</b></h3>
+                        <!-- /.card-tools -->
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="contacto_nombre">Nombre del Contacto de Emergencia <sup
+                                            class="text-danger">(*)</sup></label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-user-shield"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" name="contacto_nombre"
+                                            id="contacto_nombre" value="{{ old('contacto_nombre') }}"
+                                            placeholder="Nombre del Contacto" required>
                                     </div>
-                                    <input type="text" class="form-control" name="contacto_nombre"
-                                        id="contacto_nombre" value="{{ old('contacto_nombre') }}"
-                                        placeholder="Nombre del Contacto" required>
+                                    @error('contacto_nombre')
+                                        <small style="color: red">{{ $message }}</small>
+                                    @enderror
                                 </div>
-                                @error('contacto_nombre')
-                                    <small style="color: red">{{ $message }}</small>
-                                @enderror
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="contacto_telefono">Teléfono del Contacto de Emergencia <sup
-                                        class="text-danger">(*)</sup></label>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="contacto_telefono">Teléfono del Contacto de Emergencia <sup
+                                            class="text-danger">(*)</sup></label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" name="contacto_telefono"
+                                            id="contacto_telefono" value="{{ old('contacto_telefono') }}"
+                                            placeholder="Teléfono del Contacto" required>
                                     </div>
-                                    <input type="text" class="form-control" name="contacto_telefono"
-                                        id="contacto_telefono" value="{{ old('contacto_telefono') }}"
-                                        placeholder="Teléfono del Contacto" required>
-                                </div>
-                                @error('contacto_telefono')
-                                    <small style="color: red">{{ $message }}</small>
-                                @enderror
+                                    @error('contacto_telefono')
+                                        <small style="color: red">{{ $message }}</small>
+                                    @enderror
 
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="contacto_parentesco">Parentesco del Contacto de Emergencia <sup
-                                        class="text-danger">(*)</sup></label>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-user-friends"></i></span>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="contacto_parentesco">Parentesco del Contacto de Emergencia <sup
+                                            class="text-danger">(*)</sup></label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-user-friends"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" name="contacto_parentesco"
+                                            id="contacto_parentesco" value="{{ old('contacto_parentesco') }}"
+                                            placeholder="Parentesco del Contacto" required>
                                     </div>
-                                    <input type="text" class="form-control" name="contacto_parentesco"
-                                        id="contacto_parentesco" value="{{ old('contacto_parentesco') }}"
-                                        placeholder="Parentesco del Contacto" required>
-                                </div>
-                                @error('contacto_parentesco')
-                                    <small style="color: red">{{ $message }}</small>
-                                @enderror
+                                    @error('contacto_parentesco')
+                                        <small style="color: red">{{ $message }}</small>
+                                    @enderror
 
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <!-- /.card-body -->
                 </div>
-                <!-- /.card-body -->
+                <!-- /.card -->
             </div>
-            <!-- /.card -->
         </div>
-    </div>
 
-    <hr>
-    <div class="row">
-        <div class="col-md-12 mb-4 d-flex justify-content-between">
-            <a href="{{ url('/admin/usuarios') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i>
-                Regresar</a>
-            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>
-                Guardar</button>
+        <hr>
+        <div class="row">
+            <div class="col-md-12 mb-4 d-flex justify-content-between">
+                <a href="{{ url('/admin/usuarios') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i>
+                    Regresar</a>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>
+                    Guardar</button>
+            </div>
         </div>
-    </div>
-
-
-    </div>
+        </div>
+    </form>
 @stop
 
 @section('css')

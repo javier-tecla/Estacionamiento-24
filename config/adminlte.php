@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'Estacionamiento 24',
+    'title' => 'Estacionamiento - 24',
     'title_prefix' => '',
     'title_postfix' => '',
 

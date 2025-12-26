@@ -23,6 +23,19 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'nombres',
+        'apellidos',
+        'tipo_documento',
+        'numero_documento',
+        'celular',
+        'fecha_nacimiento',
+        'genero',
+        'direccion',
+        'foto',
+        'contacto_nombre',
+        'contacto_telefono',
+        'contacto_parentesco',
+        'estado',
     ];
 
     /**
