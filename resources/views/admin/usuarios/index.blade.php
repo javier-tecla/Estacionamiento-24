@@ -58,7 +58,14 @@
                                                 <td>{{ $usuario->tipo_documento }}</td>
                                                 <td>{{ $usuario->numero_documento }}</td>
                                                 <td>{{ $usuario->celular }}</td>
-                                                <td>{{ $usuario->estado }}</td>
+                                                <td style="text-align: center">
+                                                    @if ($usuario->estado == 1)
+                                                        <span class="badge badge-success">Activo</span>
+                                                    @else
+                                                        <span class="badge badge-danger">Inactivo</span>
+                                                    @endif
+                                                </td>
+
                                                 <td class="d-flex justify-content-center">
                                                     <a href="{{ url('/admin/usuario/'.$usuario->id) }}" class="btn btn-info btn-xs mx-1"><i class="fas fa-eye"></i> Ver</a>
                                                     <a href="{{ url('/admin/usuario/'.$usuario->id.'/edit') }}" class="btn btn-xs btn-success mx-1"><i class="fas fa-edit"></i> Editar</a>

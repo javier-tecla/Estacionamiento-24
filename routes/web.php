@@ -28,8 +28,7 @@ Route::delete('/admin/rol/{id}', [App\Http\Controllers\RoleController::class, 'd
 Route::get('/admin/usuarios', [App\Http\Controllers\UserController::class, 'index'])->name('admin.usuarios.index')->middleware('auth');
 Route::get('/admin/usuarios/create', [App\Http\Controllers\UserController::class, 'create'])->name('admin.usuarios.create')->middleware('auth');
 Route::post('/admin/usuarios/create', [App\Http\Controllers\UserController::class, 'store'])->name('admin.usuarios.store')->middleware('auth');
-Route::post('/admin/usuario/{id}', [App\Http\Controllers\UserController::class, 'show'])->name('admin.usuario.show')->middleware('auth');
+Route::get('/admin/usuario/{id}', [App\Http\Controllers\UserController::class, 'show'])->name('admin.usuario.show')->middleware('auth');
 Route::get('/admin/usuarios/{id}/edit', [App\Http\Controllers\UserController::class, 'edit'])->name('admin.usuarios.edit')->middleware('auth');
 Route::put('/admin/usuarios/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('admin.usuarios.update')->middleware('auth');
 Route::delete('/admin/usuaerios/{id}', [App\Http\Controllers\UserController::class, 'delete'])->name('admin.usuarios.destroy')->middleware('auth');
-
