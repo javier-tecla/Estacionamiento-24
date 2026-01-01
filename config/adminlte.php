@@ -326,6 +326,12 @@ return [
             'icon' => 'fas fa-fw fa-users',
             'classes' => 'bg-blue text-white',
         ],
+        [
+            'text' => 'Espacios',
+            'url' => 'admin/espacios',
+            'icon' => 'fas fa-fw fa-parking',
+            'classes' => 'bg-blue text-white',
+        ],
 
         // Sidebar items:
         ['header' => 'Ajustes del sistema'],
