@@ -67,17 +67,24 @@
                                                 </td>
 
                                                 <td class="d-flex justify-content-center">
-                                                    <a href="{{ url('/admin/usuario/'.$usuario->id) }}" class="btn btn-info btn-xs mx-1"><i class="fas fa-eye"></i> Ver</a>
-                                                    <a href="{{ url('/admin/usuario/'.$usuario->id.'/edit') }}" class="btn btn-xs btn-success mx-1"><i class="fas fa-edit"></i> Editar</a>
-                                                    <form action="{{ url('/admin/usuario/'.$usuario->id) }}" method="POST"
-                                                        id="miFormulario{{ $usuario->id }}">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn btn-xs" onclick="preguntar{{ $usuario->id }}(event)">
-                                                            <i class="fas fa-trash"></i> Eliminar
-                                                        </button>
-                                                    </form>
-                                                    <script>
+
+                                                    @if (!$usuario->deleted_at)
+                                                        <a href="{{ url('/admin/usuario/' . $usuario->id) }}"
+                                                            class="btn btn-info btn-xs mx-1"><i class="fas fa-eye"></i>
+                                                            Ver</a>
+                                                        <a href="{{ url('/admin/usuario/' . $usuario->id . '/edit') }}"
+                                                            class="btn btn-xs btn-success mx-1"><i class="fas fa-edit"></i>
+                                                            Editar</a>
+                                                        <form action="{{ url('/admin/usuario/' . $usuario->id) }}"
+                                                            method="POST" id="miFormulario{{ $usuario->id }}">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger btn btn-xs"
+                                                                onclick="preguntar{{ $usuario->id }}(event)">
+                                                                <i class="fas fa-trash"></i> Eliminar
+                                                            </button>
+                                                        </form>
+                                                        <script>
                                                         function preguntar{{ $usuario->id }}(event) {
                                                             event.preventDefault();
 
@@ -91,12 +98,49 @@
                                                                 denyButtonColor: '#270a0a',
                                                                 denyButtonText: 'Cancelar',
                                                             }).then((result) => {
-                                                                if(result.isConfirmed) {
+                                                                if (result.isConfirmed) {
                                                                     document.getElementById('miFormulario{{ $usuario->id }}').submit();
                                                                 }
                                                             });
                                                         }
                                                     </script>
+                                                    @else
+                                                        <form action="{{ url('/admin/usuario/' . $usuario->id.'/restore') }}"
+                                                            method="POST" id="miFormulario{{ $usuario->id }}">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-warning btn btn-xs"
+                                                                onclick="preguntar{{ $usuario->id }}(event)">
+                                                                <i class="fas fa-save"></i> Restaurar usuario
+                                                            </button>
+                                                        </form>
+                                                        <script>
+                                                        function preguntar{{ $usuario->id }}(event) {
+                                                            event.preventDefault();
+
+                                                            Swal.fire({
+                                                                title: '¿Desea restaurar este usuario?',
+                                                                text: '',
+                                                                icon: 'question',
+                                                                showDenyButton: true,
+                                                                confirmButtonText: 'Restaurar',
+                                                                confirmButtonColor: '#E0A800',
+                                                                denyButtonColor: '#270a0a',
+                                                                denyButtonText: 'Cancelar',
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    document.getElementById('miFormulario{{ $usuario->id }}').submit();
+                                                                }
+                                                            });
+                                                        }
+                                                    </script>
+
+                                                    @endif
+
+
+
+
+
+                                                    
                                                 </td>
                                             </tr>
                                         @endforeach

@@ -128,12 +128,21 @@
                             <p>{{ $usuario->contacto_parentesco }}</p>
                         </div>
                     </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12 d-flex justify-content-between">
+                            <a href="{{ url('/admin/usuarios') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i>
+                                Regresar</a>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->
         </div>
     </div>
+
+
 @stop
 
 @section('css')
