@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ajuste;
 use App\Models\Espacio;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,10 @@ class EspacioController extends Controller
      */
     public function index()
     {
+        $ajuste = Ajuste::first();
         $espacios = Espacio::all();
 
-        return view('admin.espacios.index', compact('espacios'));
+        return view('admin.espacios.index', compact('espacios', 'ajuste'));
     }
 
     /**
@@ -36,7 +38,7 @@ class EspacioController extends Controller
             'estado' => 'required',
         ]);
 
-        $espacio = new Espacio();
+        $espacio = new Espacio;
         $espacio->numero = $request->numero;
         $espacio->estado = $request->estado;
         $espacio->save();
@@ -65,9 +67,16 @@ class EspacioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Espacio $espacio)
+    public function update(Request $request, $id)
     {
-        //
+        // return response()->json($request->all());
+        $espacio = Espacio::find($id);
+        $espacio->estado = $request->estado;
+        $espacio->save();
+
+        return redirect()->route('admin.espacios.index')
+            ->with('mensaje', 'Espacio modificado correctamente')
+            ->with('icono', 'success');
     }
 
     /**
