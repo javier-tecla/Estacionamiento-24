@@ -22,7 +22,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.clientes.create');
     }
 
     /**
@@ -30,7 +30,27 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // return response()->json($request->all());
+        $request->validate([
+            'nombres' => 'required',
+            'numero_documento' => 'required',
+            'email' => 'required',
+            'celular' => 'required',
+            'genero' => 'required',
+        ]);
+
+        $cliente = new Cliente();
+        $cliente->nombres  = $request->nombres;
+        $cliente->numero_documento  = $request->numero_documento;
+        $cliente->email  = $request->email;
+        $cliente->celular  = $request->celular;
+        $cliente->genero  = $request->genero;
+        $cliente->save();
+
+        return redirect()->route('admin.clientes.index')
+            ->with('mensaje', 'Cliente registrado correctamente')
+            ->with('icono', 'success');
+       
     }
 
     /**
