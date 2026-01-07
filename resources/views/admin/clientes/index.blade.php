@@ -55,38 +55,79 @@
                                                 <td>{{ $cliente->email }}</td>
                                                 <td>{{ $cliente->celular }}</td>
                                                 <td>{{ $cliente->genero }}</td>
-                                                <td>{{ $cliente->estado }}</td>
+                                                <td style="text-align: center">
+                                                    @if ($cliente->estado == 1)
+                                                        <span class="badge badge-success">Activo</span>
+                                                    @else
+                                                        <span class="badge badge-danger">Inactivo</span>
+                                                    @endif
+                                                </td>
                                                 <td class="d-flex justify-content-center">
-                                                    
-                                                    <a href="{{ url('/admin/cliente/'.$cliente->id.'/edit') }}" class="btn btn-xs btn-success mx-1"><i class="fas fa-edit"></i> Editar</a>
-                                                    <form action="{{ url('/admin/cliente/'.$cliente->id) }}" method="POST"
-                                                        id="miFormulario{{ $cliente->id }}">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn btn-xs" onclick="preguntar{{ $cliente->id }}(event)">
-                                                            <i class="fas fa-trash"></i> Eliminar
-                                                        </button>
-                                                    </form>
-                                                    <script>
-                                                        function preguntar{{ $cliente->id }}(event) {
-                                                            event.preventDefault();
 
-                                                            Swal.fire({
-                                                                title: '¿Desea eliminar este registro?',
-                                                                text: 'Esta acción no se puede deshacer',
-                                                                icon: 'warning',
-                                                                showDenyButton: true,
-                                                                confirmButtonText: 'Sí, eliminar',
-                                                                confirmButtonColor: '#a5161d',
-                                                                denyButtonColor: '#270a0a',
-                                                                denyButtonText: 'Cancelar',
-                                                            }).then((result) => {
-                                                                if(result.isConfirmed) {
-                                                                    document.getElementById('miFormulario{{ $cliente->id }}').submit();
-                                                                }
-                                                            });
-                                                        }
-                                                    </script>
+                                                    @if (!$cliente->deleted_at)
+                                                        <a href="{{ url('/admin/cliente/' . $cliente->id . '/edit') }}"
+                                                            class="btn btn-xs btn-success mx-1"><i class="fas fa-edit"></i>
+                                                            Editar</a>
+                                                        <form action="{{ url('/admin/cliente/' . $cliente->id) }}"
+                                                            method="POST" id="miFormulario{{ $cliente->id }}">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger btn btn-xs"
+                                                                onclick="preguntar{{ $cliente->id }}(event)">
+                                                                <i class="fas fa-trash"></i> Eliminar
+                                                            </button>
+                                                        </form>
+                                                        <script>
+                                                            function preguntar{{ $cliente->id }}(event) {
+                                                                event.preventDefault();
+
+                                                                Swal.fire({
+                                                                    title: '¿Desea eliminar este registro?',
+                                                                    text: 'Esta acción no se puede deshacer',
+                                                                    icon: 'warning',
+                                                                    showDenyButton: true,
+                                                                    confirmButtonText: 'Sí, eliminar',
+                                                                    confirmButtonColor: '#a5161d',
+                                                                    denyButtonColor: '#270a0a',
+                                                                    denyButtonText: 'Cancelar',
+                                                                }).then((result) => {
+                                                                    if (result.isConfirmed) {
+                                                                        document.getElementById('miFormulario{{ $cliente->id }}').submit();
+                                                                    }
+                                                                });
+                                                            }
+                                                        </script>
+                                                    @else
+                                                        <form
+                                                            action="{{ url('/admin/cliente/' . $cliente->id . '/restaurar') }}"
+                                                            method="POST" id="miFormulario{{ $cliente->id }}">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-warning btn btn-xs"
+                                                                onclick="preguntar{{ $cliente->id }}(event)">
+                                                                <i class="fas fa-save"></i> Restaurar cliente
+                                                            </button>
+                                                        </form>
+                                                        <script>
+                                                            function preguntar{{ $cliente->id }}(event) {
+                                                                event.preventDefault();
+
+                                                                Swal.fire({
+                                                                    title: '¿Desea restaurar este cliente?',
+                                                                    text: '',
+                                                                    icon: 'question',
+                                                                    showDenyButton: true,
+                                                                    confirmButtonText: 'Restaurar',
+                                                                    confirmButtonColor: '#E0A800',
+                                                                    denyButtonColor: '#270a0a',
+                                                                    denyButtonText: 'Cancelar',
+                                                                }).then((result) => {
+                                                                    if (result.isConfirmed) {
+                                                                        document.getElementById('miFormulario{{ $cliente->id }}').submit();
+                                                                    }
+                                                                });
+                                                            }
+                                                        </script>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach

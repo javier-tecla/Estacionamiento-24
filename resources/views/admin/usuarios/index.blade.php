@@ -133,14 +133,7 @@
                                                             });
                                                         }
                                                     </script>
-
                                                     @endif
-
-
-
-
-
-                                                    
                                                 </td>
                                             </tr>
                                         @endforeach
