@@ -28,7 +28,29 @@ class VehiculoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // return response()->json($request->all());
+        $request->validate([
+            'cliente_id' => 'required',
+            'placa' => 'required|unique:vehiculos,placa',
+            'marca' => 'required',
+            'modelo' => 'required',
+            'color' => 'required',
+            'tipo' => 'required',
+        ]);
+
+        $vehiculo = new Vehiculo();
+      
+        $vehiculo->cliente_id = $request->cliente_id;
+        $vehiculo->placa = strtoupper($request->placa);
+        $vehiculo->marca = strtoupper($request->marca);
+        $vehiculo->modelo = strtoupper($request->modelo);
+        $vehiculo->color = strtoupper($request->color);
+        $vehiculo->tipo = strtoupper($request->tipo);
+        $vehiculo->save();
+
+        return redirect()->back()
+            ->with('mensaje', 'Vehículo registrado correctamente')
+            ->with('icono', 'success');
     }
 
     /**
@@ -50,16 +72,43 @@ class VehiculoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Vehiculo $vehiculo)
+    public function update(Request $request, $id)
     {
-        //
+        // return response()->json($request->all());
+        $vehiculo = Vehiculo::find($id);
+
+        $request->validate([
+            'cliente_id' => 'required',
+            'placa' => 'required|string|max:255|unique:vehiculos,placa,'.$id,
+            'marca' => 'required',
+            'modelo' => 'required',
+            'color' => 'required',
+            'tipo' => 'required',
+        ]);
+
+        $vehiculo->cliente_id = $request->cliente_id;
+        $vehiculo->placa = strtoupper($request->placa);
+        $vehiculo->marca = strtoupper($request->marca);
+        $vehiculo->modelo = strtoupper($request->modelo);
+        $vehiculo->color = strtoupper($request->color);
+        $vehiculo->tipo = strtoupper($request->tipo);
+        $vehiculo->save();
+
+        return redirect()->back()
+            ->with('mensaje', 'Vehículo actualizado correctamente')
+            ->with('icono', 'success');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Vehiculo $vehiculo)
+    public function destroy($id)
     {
-        //
+        $vehiculo = Vehiculo::find($id);
+        $vehiculo->delete();
+
+        return redirect()->back()
+        ->with('mensaje', 'Vehiculo eliminado correctamente')
+        ->with('icono', 'success');
     }
 }

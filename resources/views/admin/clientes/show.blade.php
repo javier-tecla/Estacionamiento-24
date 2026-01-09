@@ -104,7 +104,9 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="">
+                                        <form action="{{ url('/admin/clientes/vehiculos/create') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" value="{{ $cliente->id }}" name="cliente_id">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
@@ -113,7 +115,7 @@
                                                         <div class="input-group mb-3">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text"><i
-                                                                        class="fas fa-card"></i></span>
+                                                                        class="fas fa-car"></i></span>
                                                             </div>
                                                             <input type="text" class="form-control"
                                                                 value="{{ old('placa') }}" name="placa" id="placa"
@@ -133,11 +135,12 @@
                                                         <div class="input-group mb-3">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text"><i
-                                                                        class="fas fa-card"></i></span>
+                                                                        class="fas fa-industry"></i></span>
                                                             </div>
                                                             <input type="text" class="form-control"
-                                                                value="{{ old('marca') }}" name="marca" id="marca"
-                                                                placeholder="Toyota, Honda, etc." required>
+                                                                value="{{ old('marca') }}" name="marca"
+                                                                id="marca" placeholder="Toyota, Honda, etc."
+                                                                style="text-transform: uppercase" required>
                                                         </div>
 
                                                         @error('marca')
@@ -154,12 +157,12 @@
                                                         <div class="input-group mb-3">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text"><i
-                                                                        class="fas fa-card"></i></span>
+                                                                        class="fas fa-car-side"></i></span>
                                                             </div>
                                                             <input type="text" class="form-control"
                                                                 value="{{ old('modelo') }}" name="modelo"
                                                                 id="modelo" placeholder="Corolla, Civic, etc."
-                                                                required>
+                                                                style="text-transform: uppercase" required>
                                                         </div>
 
                                                         @error('modelo')
@@ -174,12 +177,12 @@
                                                         <div class="input-group mb-3">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text"><i
-                                                                        class="fas fa-card"></i></span>
+                                                                        class="fas fa-palette"></i></span>
                                                             </div>
                                                             <input type="text" class="form-control"
                                                                 value="{{ old('color') }}" name="color"
                                                                 id="color" placeholder="Rojo, Azul, Blanco, etc."
-                                                                required>
+                                                                style="text-transform: uppercase" required>
                                                         </div>
 
                                                         @error('color')
@@ -234,10 +237,10 @@
                                             </div>
                                         </form>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
+                        <!-- Modal -->
                     </div>
                     <!-- /.card-tools -->
                 </div>
@@ -266,10 +269,179 @@
                                         <td>{{ $vehiculo->color }}</td>
                                         <td>{{ $vehiculo->tipo }}</td>
                                         <td class="d-flex justify-content-center">
-                                            <a href="{{ url('/admin/cliente/vehiculo/' . $vehiculo->id . '/edit') }}"
-                                                class="btn btn-xs btn-success mx-1"><i class="fas fa-edit"></i> Editar</a>
 
-                                            <form action="{{ url('/admin/cliente/vehiculo/' . $vehiculo->id) }}"
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-success" data-toggle="modal"
+                                                data-target="#ModalEditVehiculo{{ $vehiculo->id }}">
+                                                <i class="fas fa-edit"></i> Editar
+                                            </button>
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="ModalEditVehiculo{{ $vehiculo->id }}" tabindex="-1"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header card card-outline card-primary">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Modificar datos del
+                                                                vehículo</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form action="{{ url('/admin/clientes/vehiculo/'.$vehiculo->id) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <input type="hidden" value="{{ $cliente->id }}"
+                                                                    name="cliente_id">
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="placa">Placa del Vehículo <sup
+                                                                                    class="text-danger">(*)</sup></label>
+                                                                            <div class="input-group mb-3">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text"><i
+                                                                                            class="fas fa-car"></i></span>
+                                                                                </div>
+                                                                                <input type="text" class="form-control"
+                                                                                    value="{{ old('placa',$vehiculo->placa) }}"
+                                                                                    name="placa" id="placa"
+                                                                                    placeholder="ABC-123"
+                                                                                    style="text-transform: uppercase;"
+                                                                                    required>
+                                                                            </div>
+
+                                                                            @error('placa')
+                                                                                <small
+                                                                                    style="color: red">{{ $message }}</small>
+                                                                            @enderror
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="marca">Marca <sup
+                                                                                    class="text-danger">(*)</sup></label>
+                                                                            <div class="input-group mb-3">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text"><i
+                                                                                            class="fas fa-industry"></i></span>
+                                                                                </div>
+                                                                                <input type="text" class="form-control"
+                                                                                    value="{{ old('marca',$vehiculo->marca) }}"
+                                                                                    name="marca" id="marca"
+                                                                                    placeholder="Toyota, Honda, etc."
+                                                                                    style="text-transform: uppercase"
+                                                                                    required>
+                                                                            </div>
+
+                                                                            @error('marca')
+                                                                                <small
+                                                                                    style="color: red">{{ $message }}</small>
+                                                                            @enderror
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="modelo">Modelo <sup
+                                                                                    class="text-danger">(*)</sup></label>
+                                                                            <div class="input-group mb-3">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text"><i
+                                                                                            class="fas fa-car-side"></i></span>
+                                                                                </div>
+                                                                                <input type="text" class="form-control"
+                                                                                    value="{{ old('modelo',$vehiculo->modelo) }}"
+                                                                                    name="modelo" id="modelo"
+                                                                                    placeholder="Corolla, Civic, etc."
+                                                                                    style="text-transform: uppercase"
+                                                                                    required>
+                                                                            </div>
+
+                                                                            @error('modelo')
+                                                                                <small
+                                                                                    style="color: red">{{ $message }}</small>
+                                                                            @enderror
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="color">Color <sup
+                                                                                    class="text-danger">(*)</sup></label>
+                                                                            <div class="input-group mb-3">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text"><i
+                                                                                            class="fas fa-palette"></i></span>
+                                                                                </div>
+                                                                                <input type="text" class="form-control"
+                                                                                    value="{{ old('color',$vehiculo->color) }}"
+                                                                                    name="color" id="color"
+                                                                                    placeholder="Rojo, Azul, Blanco, etc."
+                                                                                    style="text-transform: uppercase"
+                                                                                    required>
+                                                                            </div>
+
+                                                                            @error('color')
+                                                                                <small
+                                                                                    style="color: red">{{ $message }}</small>
+                                                                            @enderror
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+                                                                            <label for="tipo">Tipo de Vehículo <sup
+                                                                                    class="text-danger">(*)</sup></label>
+                                                                            <div class="input-group mb-3">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text">
+                                                                                        <i class="fas fa-truck"></i>
+                                                                                    </span>
+                                                                                </div>
+                                                                                <select class="form-control"
+                                                                                    name="tipo" id="tipo"
+                                                                                    required>
+                                                                                    <option value="" disabled>Seleccione tipo</option>
+                                                                                    <option value="auto" {{ old('tipo',$vehiculo->tipo) == 'auto' ? 'selected' : '' }}>
+                                                                                        Automóvil
+                                                                                    </option>
+                                                                                    <option value="moto" {{ old('tipo',$vehiculo->tipo) == 'moto' ? 'selected' : '' }}>
+                                                                                        Moto
+                                                                                    </option>
+                                                                                    <option value="camion" {{ old('tipo',$vehiculo->tipo) == 'camion' ? 'selected' : '' }}>
+                                                                                        Camión
+                                                                                    </option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <hr>
+
+                                                                <div class="row">
+                                                                    <div class="col-md-12 d-flex justify-content-between">
+                                                                        <button type="button"
+                                                                            class="btn btn-secondary"data-dismiss="modal">
+                                                                            Cancelar
+                                                                        </button>
+                                                                        <button type="submit" class="btn btn-primary">
+                                                                            Actualizar</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Modal -->
+
+                                            <form action="{{ url('/admin/clientes/vehiculo/' . $vehiculo->id) }}"
                                                 method="POST" id="miFormulario{{ $vehiculo->id }}">
                                                 @csrf
                                                 @method('DELETE')
