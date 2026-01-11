@@ -16,4 +16,8 @@ class Tarifa extends Model
         'minutos_de_gracia',
 
     ];
+
+    public function tickets(){
+        return $this->hasMany(Ticket::class);
+    }
 }

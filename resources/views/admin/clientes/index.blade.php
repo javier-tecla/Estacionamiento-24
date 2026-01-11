@@ -63,7 +63,6 @@
                                                     @endif
                                                 </td>
                                                 <td class="d-flex justify-content-center">
-
                                                     @if (!$cliente->deleted_at)
                                                         <a href="{{ url('/admin/cliente/' . $cliente->id ) }}"
                                                             class="btn btn-xs btn-info mx-1"><i class="fas fa-car"></i>
@@ -72,7 +71,7 @@
                                                             class="btn btn-xs btn-success mx-1"><i class="fas fa-edit"></i>
                                                             Editar</a>
                                                         <form action="{{ url('/admin/cliente/' . $cliente->id) }}"
-                                                            method="POST" id="miFormulario{{ $cliente->id }}">
+                                                            method="POST" id="miFormulario{{ $cliente->id }}" class="mx-1">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="btn btn-danger btn btn-xs"

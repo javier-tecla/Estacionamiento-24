@@ -349,6 +349,13 @@ return [
             'classes' => 'bg-blue text-white',
             'active' => ['admin/cliente*'],
         ],
+        [
+            'text' => 'Tickets',
+            'url' => 'admin/tickets',
+            'icon' => 'fas fa-fw fa-ticket-alt',
+            'classes' => 'bg-blue text-white',
+            'active' => ['admin/ticket*'],
+        ],
 
         // Sidebar items:
         ['header' => 'Ajustes del sistema'],

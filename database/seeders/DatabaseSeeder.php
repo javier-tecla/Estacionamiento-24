@@ -7,6 +7,7 @@ use App\Models\Ajuste;
 use App\Models\Tarifa;
 use App\Models\Cliente;
 use App\Models\Espacio;
+use App\Models\Vehiculo;
 use Illuminate\Database\Seeder;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Support\Facades\Hash;
@@ -180,8 +181,8 @@ class DatabaseSeeder extends Seeder
         Tarifa::create(['nombre'=>'regular','tipo'=>'por_dia','cantidad'=>'6','costo'=>'300','minutos_de_gracia'=>'60']);
         Tarifa::create(['nombre'=>'regular','tipo'=>'por_dia','cantidad'=>'7','costo'=>'350','minutos_de_gracia'=>'60']);
 
-        // cliente 1
-        Cliente::create([
+        // cliente 1 y su vehículo
+        $cliente1 = Cliente::create([
             'nombres' => 'María Elena Rodríguez Vega',
             'numero_documento' => '123456789',
             'email' => 'maria.rodriguez@gmail.com',
@@ -190,8 +191,18 @@ class DatabaseSeeder extends Seeder
             'estado' => true,
         ]);
 
-        // cliente 2
-        Cliente::create([
+        Vehiculo::create([
+            'cliente_id' => $cliente1->id,
+            'placa' => 'ABC-123',
+            'marca' => 'Toyota',
+            'modelo' => 'Corolla',
+            'color' => 'Blanco',
+            'tipo' => 'auto',
+          ]);
+
+
+        // cliente 2 y su vehículo
+       $cliente2 = Cliente::create([
             'nombres' => 'Carlos Antonio Méndez Silva',
             'numero_documento' => '96852321',
             'email' => 'carlos.mendez@gmail.com',
@@ -200,8 +211,17 @@ class DatabaseSeeder extends Seeder
             'estado' => true,
         ]);
 
-        // cliente 3
-        Cliente::create([
+        Vehiculo::create([
+            'cliente_id' => $cliente2->id,
+            'placa' => 'XYZ-456',
+            'marca' => 'Honda',
+            'modelo' => 'Civic',
+            'color' => 'Azul',
+            'tipo' => 'auto',
+          ]);
+
+        // cliente 3 y su vehículo
+        $cliente3 = Cliente::create([
             'nombres' => 'Ana Patricia Perez',
             'numero_documento' => '95326596',
             'email' => 'ana.flores@gmail.com',
@@ -210,8 +230,17 @@ class DatabaseSeeder extends Seeder
             'estado' => true,
         ]);
 
-        // cliente 4
-        Cliente::create([
+        Vehiculo::create([
+            'cliente_id' => $cliente3->id,
+            'placa' => 'DEF-789',
+            'marca' => 'Nissan',
+            'modelo' => 'Sentra',
+            'color' => 'Rojo',
+            'tipo' => 'auto',
+          ]);
+
+        // cliente 4 y su vehículo
+        $cliente4 = Cliente::create([
             'nombres' => 'Roberto Luis Gonzalez Tovar',
             'numero_documento' => '36256987',
             'email' => 'roberto.torrez@outlook.com',
@@ -220,8 +249,17 @@ class DatabaseSeeder extends Seeder
             'estado' => true,
         ]);
 
-        // cliente 4
-        Cliente::create([
+        Vehiculo::create([
+            'cliente_id' => $cliente4->id,
+            'placa' => 'GHI-012',
+            'marca' => 'Ford',
+            'modelo' => 'F-150',
+            'color' => 'Negro',
+            'tipo' => 'auto',
+          ]);
+
+        // cliente 5 y su vehículo
+        $cliente5 = Cliente::create([
             'nombres' => 'Carmen Rosa Hernandez Lora',
             'numero_documento' => '17058693',
             'email' => 'carmen.hernandez@outlook.com',
@@ -229,5 +267,14 @@ class DatabaseSeeder extends Seeder
             'genero' => 'Femenino',
             'estado' => true,
         ]);
+
+        Vehiculo::create([
+            'cliente_id' => $cliente5->id,
+            'placa' => 'JKL-345',
+            'marca' => 'Yamaha',
+            'modelo' => 'FZ-16',
+            'color' => 'Verde',
+            'tipo' => 'moto',
+          ]);
     }
 }

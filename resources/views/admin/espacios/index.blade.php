@@ -52,7 +52,7 @@
                                                 @csrf
                                                 @method('PUT')
 
-                                                <div class="modal-header">
+                                                <div class="modal-header card card-outline card-primary">
                                                     <h5 class="modal-title" id="exampleModalLabel">Cambiar el estado del espacio
                                                         {{ $espacio->numero }}</h5>
                                                     <button type="button" class="close" data-dismiss="modal"
