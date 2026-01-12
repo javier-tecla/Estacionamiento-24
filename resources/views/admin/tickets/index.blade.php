@@ -76,7 +76,30 @@
                 </div>
 
                 <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="placa">Placa del Vehículo
+                                    <sup class="text-danger">(*)</sup></label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-car"></i></span>
+                                    </div>
+                                    <select name="" id="" class="form-control select2">
+                                        <option value="">Buscar vehiculo...</option>
+                                        @foreach ($vehiculos as $vehiculo)
+                                            <option value="{{ $vehiculo->id }}">📌Placa: {{ $vehiculo->placa }} -  👤 Cliente:
+                                                {{ $vehiculo->cliente->nombres }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
+                                @error('placa')
+                                    <small style="color: red">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -125,11 +148,24 @@
 @stop
 
 @section('css')
-
+    <style>
+        .select2-container .select2-selection--single{
+            height: 35px !important;
+        }
+    </style>
 @stop
 
 @section('js')
     <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                allowClear: true,
+                width: '90%',
+                dropdownParent: $('#modal_ticket'),
+            });
+        });
+
+
         $('.btn-ticket').on('click', function() {
             var espacio_id = $(this).data('espacio-id');
             $('#modal_ticket').modal('show');

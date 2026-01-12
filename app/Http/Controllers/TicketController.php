@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ajuste;
-use App\Models\Espacio;
 use App\Models\Ticket;
+use App\Models\Espacio;
+use App\Models\Vehiculo;
 use Illuminate\Http\Request;
+use Nette\Utils\Json;
 
 class TicketController extends Controller
 {
@@ -16,7 +18,9 @@ class TicketController extends Controller
     {
         $ajuste = Ajuste::first();
         $espacios = Espacio::all();
-        return view('admin.tickets.index', compact('espacios','ajuste'));
+        $vehiculos = Vehiculo::with('cliente')->get();
+        return view('admin.tickets.index', compact('espacios','ajuste','vehiculos'));
+        // return response()->json($vehiculos);
     }
 
     /**
