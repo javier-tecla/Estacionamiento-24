@@ -100,6 +100,11 @@
                             </div>
                         </div>
                     </div>
+
+                    <div id="info_vehiculo">
+
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -162,6 +167,25 @@
                 allowClear: true,
                 width: '90%',
                 dropdownParent: $('#modal_ticket'),
+            });
+
+            $('.select2').on('change',function(){
+                var vehiculo_id = $(this).val();
+
+                if(vehiculo_id){
+                    $.ajax({
+                        url : "{{ url('/admin/tickets/vehiculo') }}/" + vehiculo_id,
+                        type : 'GET',
+                        success: function(data){
+                            $('#info_vehiculo').html(data);
+                        },
+                        error: function(){
+                            $('#info_vehiculo').html('<p>Error al cargar la información</p>')
+                        }
+                    });
+                }else{
+                    alert("Debe seleccionar un vehiculo");
+                }
             });
         });
 
