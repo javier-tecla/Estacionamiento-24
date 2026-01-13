@@ -70,3 +70,4 @@ Route::delete('/admin/clientes/vehiculo/{id}', [App\Http\Controllers\VehiculoCon
 // Rutas para tickets
 Route::get('/admin/tickets', [App\Http\Controllers\TicketController::class,'index'])->name('admin.tickets.index')->middleware('auth');
 Route::get('/admin/tickets/vehiculo/{id}', [App\Http\Controllers\TicketController::class,'buscar_vehiculo'])->name('admin.tickets.buscar_vehiculo')->middleware('auth');
+Route::post('/admin/tickets/create', [App\Http\Controllers\TicketController::class,'store'])->name('admin.tickets.store')->middleware('auth');
