@@ -28,27 +28,36 @@
                 <div class="card-body">
                     <div class="row">
                         @foreach ($espacios as $espacio)
+                            @php
+                                $ticket_activo = $tickets_activos->firstWhere('espacio_id', $espacio->id);
+                            @endphp
                             <div class="col text-center">
                                 <h5>ESP-{{ $espacio->numero }}</h5>
 
-                                @if ($espacio->estado == 'libre')
-                                    <button class="btn btn-success btn-ticket" data-espacio-id="{{ $espacio->id }}"
-                                        data-numero-espacio="{{ $espacio->numero }}" style="width: 100%;height:120px">
-                                        LIBRE
-                                    </button>
-                                @endif
-
-                                @if ($espacio->estado == 'mantenimiento')
-                                    <button class="btn btn-warning btn-mantenimiento" style="width: 100%;height:120px">
-                                        <small>Mantenimiento</small>
-                                    </button>
-                                @endif
-
-                                @if ($espacio->estado == 'ocupado')
-                                    <button class="btn btn-danger btn-ocupado" style="width: 100%;height:120px">
+                                @if ($ticket_activo)
+                                    <button class="btn btn-danger btn-ocupado" style="width: 100%;height:150px">
                                         <img src="{{ asset('storage/logos/' . $ajuste->logo_auto) }}" alt="logo_auto"
                                             style="max-width: 80px; margin-top: 2px;">
+                                            <small>{{ $ticket_activo->vehiculo->placa }}</small>
                                     </button>
+                                @else
+                                    @if ($espacio->estado == 'libre')
+                                        <button class="btn btn-success btn-ticket" data-espacio-id="{{ $espacio->id }}"
+                                            data-numero-espacio="{{ $espacio->numero }}" style="width: 100%;height:150px">
+                                            LIBRE
+                                        </button>
+                                    @endif
+
+                                    @if ($espacio->estado == 'mantenimiento')
+                                        <button class="btn btn-warning btn-mantenimiento" style="width: 100%;height:150px">
+                                            <small>Mantenimiento</small>
+                                        </button>
+                                    @endif
+                                    @if ($espacio->estado == 'ocupado')
+                                        <button class="btn btn-danger" style="width: 100%;height:150px">
+                                            OCUPADO
+                                        </button>
+                                    @endif
                                 @endif
 
                                 <br><br>
@@ -252,9 +261,9 @@
             var vehiculo_id = $('#vehiculo_id').val();
             var tarifa_id = $('#tarifa_id').val();
             // alert(espacio_id+" - "+vehiculo_id+" - "+tarifa_id);
-            if(!espacio_id || !vehiculo_id || !tarifa_id){
-               event.preventDefault();
-               alert("Por favor, complete todos los campos");
+            if (!espacio_id || !vehiculo_id || !tarifa_id) {
+                event.preventDefault();
+                alert("Por favor, complete todos los campos");
             }
         });
 

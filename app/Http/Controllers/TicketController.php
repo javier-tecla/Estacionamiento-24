@@ -24,8 +24,13 @@ class TicketController extends Controller
         $vehiculos = Vehiculo::with('cliente')->get();
         $tarifas = Tarifa::all();
 
-        return view('admin.tickets.index', compact('espacios', 'ajuste', 'vehiculos', 'tarifas'));
-        // return response()->json($vehiculos);
+        $tickets_activos = Ticket::where('estado_ticket', 'activo')->get();
+
+        // return response()->json($tickets_activos);
+
+        return view('admin.tickets.index', compact('espacios', 'ajuste', 'vehiculos', 'tarifas', 'tickets_activos'));
+
+        return response()->json($vehiculos);
     }
 
     public function buscar_vehiculo($id)
@@ -55,6 +60,14 @@ class TicketController extends Controller
             'tarifa_id' => 'required',
 
         ]);
+
+        $ticket_activo = Ticket::where('vehiculo_id', $request->vehiculo_id)
+            ->where('estado_ticket', 'activo')->first();
+        if ($ticket_activo) {
+            return redirect()->back()
+                ->with('mensaje', 'Error: El vehículo ya tiene un ticket activo')
+                ->with('icono', 'error');
+        }
 
         $vehiculo = Vehiculo::find($request->vehiculo_id);
 
