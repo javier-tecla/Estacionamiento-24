@@ -101,9 +101,10 @@ class TicketController extends Controller
 
     public function imprimir_ticket($id)
     {
-        $ticket = Ticket::find($id);
+        $ticket = Ticket::with('cliente')->find($id);
         $ajuste = Ajuste::first();
-        $pdf = PDF::loadView('admin.tickets.ticket_pdf',compact('ticket','ajuste'));
+        $fecha_hora = Carbon::now();
+        $pdf = PDF::loadView('admin.tickets.ticket_pdf',compact('ticket','ajuste','fecha_hora'));
 
         // Configuración para impresora térmica (80mm de ancho, alto automático)
         $pdf->setOptions([

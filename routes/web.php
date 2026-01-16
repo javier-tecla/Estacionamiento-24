@@ -71,4 +71,4 @@ Route::delete('/admin/clientes/vehiculo/{id}', [App\Http\Controllers\VehiculoCon
 Route::get('/admin/tickets', [App\Http\Controllers\TicketController::class,'index'])->name('admin.tickets.index')->middleware('auth');
 Route::get('/admin/tickets/vehiculo/{id}', [App\Http\Controllers\TicketController::class,'buscar_vehiculo'])->name('admin.tickets.buscar_vehiculo')->middleware('auth');
 Route::post('/admin/tickets/create', [App\Http\Controllers\TicketController::class,'store'])->name('admin.tickets.store')->middleware('auth');
-Route::get('/admin/tickets/{id}/imprimir', [App\Http\Controllers\TicketController::class,'imprimir_ticket'])->name('admin.tickets.imprimir_ticket')->middleware('auth');
+Route::get('/admin/ticket/{id}/imprimir', [App\Http\Controllers\TicketController::class,'imprimir_ticket'])->name('admin.tickets.imprimir_ticket')->middleware('auth');
