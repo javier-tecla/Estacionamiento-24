@@ -26,49 +26,57 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <div class="row">
-                        @foreach ($espacios as $espacio)
-                            @php
-                                $ticket_activo = $tickets_activos->firstWhere('espacio_id', $espacio->id);
-                            @endphp
-                            <div class="col text-center">
-                                <h5>ESP-{{ $espacio->numero }}</h5>
+                    @foreach ($espacios->chunk(10) as $fila)
+                        <div class="row mb-4"> <!-- Crea una nueva fila para cada 10 elementos -->
+                            @foreach ($fila as $espacio)
+                                @php
+                                    $ticket_activo = $tickets_activos->firstWhere('espacio_id', $espacio->id);
+                                @endphp
+                                <div class="col text-center" style="text-align: center">
+                                    <h5>ESP-{{ $espacio->numero }}</h5>
 
-                                @if ($ticket_activo)
-                                    <button class="btn btn-danger btn-ocupado" style="width: 100%;height:150px">
-                                        <img src="{{ asset('storage/logos/' . $ajuste->logo_auto) }}" alt="logo_auto"
-                                            style="max-width: 80px; margin-top: 2px;">
+                                    @if ($ticket_activo)
+                                        <button class="btn btn-danger btn-ocupado" data-ticket-id="{{ $ticket_activo->id }}"
+                                            style="width: 100%;height:200px">
+                                            <small>{{ \Carbon\Carbon::parse($ticket_activo->fecha_ingreso)->format('d-m-Y') }}</small>
+                                            <small>{{ $ticket_activo->hora_ingreso }}</small>
+                                            <img src="{{ asset('storage/logos/' . $ajuste->logo_auto) }}" alt="logo_auto"
+                                                style="max-width: 80px; margin-top: 2px;">
                                             <small>{{ $ticket_activo->vehiculo->placa }}</small>
-                                    </button>
-                                @else
-                                    @if ($espacio->estado == 'libre')
-                                        <button class="btn btn-success btn-ticket" data-espacio-id="{{ $espacio->id }}"
-                                            data-numero-espacio="{{ $espacio->numero }}" style="width: 100%;height:150px">
-                                            LIBRE
                                         </button>
+                                    @else
+                                        @if ($espacio->estado == 'libre')
+                                            <button class="btn btn-success btn-ticket" data-espacio-id="{{ $espacio->id }}"
+                                                data-numero-espacio="{{ $espacio->numero }}"
+                                                style="width: 100%;height:200px">
+                                                LIBRE
+                                            </button>
+                                        @endif
+
+                                        @if ($espacio->estado == 'mantenimiento')
+                                            <button class="btn btn-warning btn-mantenimiento"
+                                                style="width: 100%;height:200px">
+                                                <small>Mantenimiento</small>
+                                            </button>
+                                        @endif
+                                        @if ($espacio->estado == 'ocupado')
+                                            <button class="btn btn-danger" style="width: 100%;height:200px">
+                                                OCUPADO
+                                            </button>
+                                        @endif
                                     @endif
 
-                                    @if ($espacio->estado == 'mantenimiento')
-                                        <button class="btn btn-warning btn-mantenimiento" style="width: 100%;height:150px">
-                                            <small>Mantenimiento</small>
-                                        </button>
-                                    @endif
-                                    @if ($espacio->estado == 'ocupado')
-                                        <button class="btn btn-danger" style="width: 100%;height:150px">
-                                            OCUPADO
-                                        </button>
-                                    @endif
-                                @endif
-
-                                <br><br>
-                            </div>
-                        @endforeach
-                    </div>
+                                    <br><br>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endforeach
                 </div>
-                <!-- /.card-body -->
             </div>
-            <!-- /.card -->
+            <!-- /.card-body -->
         </div>
+        <!-- /.card -->
+    </div>
     </div>
 
 
@@ -211,7 +219,13 @@
                 </div>
 
                 <div class="modal-body">
-                    <p style="text-align: center">El estado de este espacio esta ocupado</p>
+                    {{-- <p style="text-align: center">El estado de este espacio esta ocupado</p> --}}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="#" id="btn_imprimir_ticket" class="btn btn-warning"><i
+                                    class="fas fa-print"></i> Imprimir</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -281,6 +295,9 @@
         });
 
         $('.btn-ocupado').on('click', function() {
+            var ticket_id = $(this).data('ticket-id');
+            var urlImprimir = "{{ url('/admin/ticket')}}/"+ ticket_id +"/imprimir";
+            $('#btn_imprimir_ticket').attr('href',urlImprimir);
             $('#modal_ocupado').modal('show');
         });
     </script>

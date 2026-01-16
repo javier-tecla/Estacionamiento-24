@@ -7,6 +7,7 @@ use App\Models\Espacio;
 use App\Models\Tarifa;
 use App\Models\Ticket;
 use App\Models\Vehiculo;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -96,6 +97,26 @@ class TicketController extends Controller
             ->with('mensaje', 'Ticket registrado correctamente')
             ->with('icono', 'success');
 
+    }
+
+    public function imprimir_ticket($id)
+    {
+        $ticket = Ticket::find($id);
+        $ajuste = Ajuste::first();
+        $pdf = PDF::loadView('admin.tickets.ticket_pdf',compact('ticket','ajuste'));
+
+        // Configuración para impresora térmica (80mm de ancho, alto automático)
+        $pdf->setOptions([
+            'dpi' => 120,
+            'defaultPaperSize' => [0, 0, 226.77, 0], // 80mm = 226.77 puntos 
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => true,
+            'defaultFont' => 'Arial Narrow'
+        ]);
+
+        $pdf->setPaper([0, 0, 226.77, 999999]); // 80mm de ancho, alto infinito
+
+        return $pdf->stream('ticket.pdf');
     }
 
     /**
