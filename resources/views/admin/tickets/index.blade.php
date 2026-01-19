@@ -255,8 +255,7 @@
 
                             <button class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
 
-                            <form action="" method="POST" id="miFormulario" id="form_cancel_ticket"
-                                style="display: inline">
+                            <form action="" method="POST" id="form_cancel_ticket" style="display: inline">
                                 @csrf
                                 @method('DELETE')
                                 <input type="hidden" name="ticket_id" id="ticket_id">
@@ -269,6 +268,10 @@
                             <a href="#" id="btn_imprimir_ticket" data-dismiss="modal" data-toggle="modal"
                                 data-target="#modal_pdf_ticket" class="btn btn-warning"><i class="fas fa-print"></i>
                                 Imprimir</a>
+
+                            <a href="#" id="btn_facturar" data-toggle="modal" class="btn btn-success"><i
+                                    class="fas fa-money-bill"></i>
+                                Facturar</a>
                         </div>
                     </div>
                 </div>
@@ -405,15 +408,10 @@
     @endif
 
     <script>
-
-        $('#btn_cancelar_ticket').on('click', function(){
-            alert("hola");
-        });
-
-        < script >
-            function preguntar(event) {
-                event.preventDefault();
-
+        $('#btn_cancelar_ticket').on('click', function() {
+            event.preventDefault();
+            var ticket_id = $('#ticket_id').val();
+            if (ticket_id)
                 Swal.fire({
                     title: '¿Desea eliminar este registro?',
                     text: 'Esta acción no se puede deshacer',
@@ -425,10 +423,13 @@
                     denyButtonText: 'Cancelar',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        document.getElementById('miFormulario').submit();
+                        var form = $('#form_cancel_ticket');
+                        var url = "{{ url('/admin/ticket') }}/" + ticket_id;
+                        form.attr('action', url);
+                        form.submit();
                     }
                 });
-            }
-    </script>
+
+        });
     </script>
 @stop
