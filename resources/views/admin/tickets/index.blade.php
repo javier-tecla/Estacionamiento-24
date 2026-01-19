@@ -37,6 +37,13 @@
 
                                     @if ($ticket_activo)
                                         <button class="btn btn-danger btn-ocupado" data-ticket-id="{{ $ticket_activo->id }}"
+                                            data-codigo="{{ $ticket_activo->codigo_ticket }}"
+                                            data-cliente="{{ $ticket_activo->cliente->nombres }}"
+                                            data-documento="{{ $ticket_activo->cliente->numero_documento }}"
+                                            data-placa="{{ $ticket_activo->vehiculo->placa }}"
+                                            data-numero_espacio="{{ $ticket_activo->espacio->numero }}"
+                                            data-fecha_ingreso="{{ $ticket_activo->fecha_ingreso }}"
+                                            data-hora_ingreso="{{ $ticket_activo->hora_ingreso }}"
                                             style="width: 100%;height:200px">
                                             <small>{{ \Carbon\Carbon::parse($ticket_activo->fecha_ingreso)->format('d-m-Y') }}</small>
                                             <small>{{ $ticket_activo->hora_ingreso }}</small>
@@ -46,7 +53,8 @@
                                         </button>
                                     @else
                                         @if ($espacio->estado == 'libre')
-                                            <button class="btn btn-success btn-ticket" data-espacio-id="{{ $espacio->id }}"
+                                            <button class="btn btn-success btn-ticket"
+                                                data-espacio-id="{{ $espacio->id }}"
                                                 data-numero-espacio="{{ $espacio->numero }}"
                                                 style="width: 100%;height:200px">
                                                 LIBRE
@@ -65,7 +73,6 @@
                                             </button>
                                         @endif
                                     @endif
-
                                     <br><br>
                                 </div>
                             @endforeach
@@ -77,7 +84,7 @@
         </div>
         <!-- /.card -->
     </div>
-    </div>
+
 
 
     <!-- Modal para el ticket -->
@@ -140,8 +147,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="placa">Tarifas
-                                        <sup class="text-danger">(*)</sup></label>
+                                    <label for="placa">Tarifas<sup class="text-danger">(*)</sup></label>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-car"></i></span>
@@ -208,7 +214,7 @@
 
     <!-- Modal en ocupado -->
     <div class="modal fade" id="modal_ocupado" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header card card-outline card-danger">
                     <h5 class="modal-title" id="exampleModalLabel">Finalizar ticket
@@ -219,13 +225,73 @@
                 </div>
 
                 <div class="modal-body">
-                    {{-- <p style="text-align: center">El estado de este espacio esta ocupado</p> --}}
                     <div class="row">
-                        <div class="col-md-12">
-                            <a href="#" id="btn_imprimir_ticket" class="btn btn-warning"><i
-                                    class="fas fa-print"></i> Imprimir</a>
+                        <div class="col-md-12" style="text-align: center">
+                            <h3 style="margin: 5px 0; text-align: center">
+                                <b>TICKE: </b> <span id="codigo_ticket"></span>
+                            </h3>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <b>Datos del cliente:</b> <br>
+                            <b>Señor(a):</b> <span id="cliente"></span> <br>
+                            <b>Documento:</b> <span id="documento"></span> <br>
+                            <b>Placa del vehículo:</b> <span id="placa"></span> <br>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <b>Espacio nro:</b> <span id="numero_espacio"></span> <br>
+                            <b>Fecha de ingreso:</b> <span id="fecha_ingreso"></span> <br>
+                            <b>Hora de ingreso:</b> <span id="hora_ingreso"></span> <br>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <button class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
+                            <form action="" method="POST" id="miFormulario" id="form_cancel_ticket"
+                                style="display: inline">
+                                @csrf
+                                @method('DELETE')
+                                <input type="hidden" name="ticket_id" id="ticket_id">
+                                <button type="submit" class="btn btn-danger " id="btn_cancelar_ticket">
+                                    <i class="fas fa-trash"></i> Cancelar ticket
+                                </button>
+                            </form>
+
+
+                            <a href="#" id="btn_imprimir_ticket" data-dismiss="modal" data-toggle="modal"
+                                data-target="#modal_pdf_ticket" class="btn btn-warning"><i class="fas fa-print"></i>
+                                Imprimir</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal para la vista de la impresion ticket -->
+    <div class="modal fade" id="modal_pdf_ticket" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header card card-outline card-warning">
+                    <h5 class="modal-title" id="exampleModalLabel">Impresión del ticket
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <iframe id="pdf_iframe_ticket" style="width: 100%;height: 50vh;" frameborder="0"></iframe>
                 </div>
             </div>
         </div>
@@ -243,6 +309,7 @@
 
 @section('js')
     <script>
+        let ticket_a_imprimir = null;
         $(document).ready(function() {
             $('.select2').select2({
                 allowClear: true,
@@ -296,9 +363,72 @@
 
         $('.btn-ocupado').on('click', function() {
             var ticket_id = $(this).data('ticket-id');
-            var urlImprimir = "{{ url('/admin/ticket')}}/"+ ticket_id +"/imprimir";
-            $('#btn_imprimir_ticket').attr('href',urlImprimir);
+            var codigo = $(this).data('codigo');
+            var cliente = $(this).data('cliente');
+            var documento = $(this).data('documento');
+            var placa = $(this).data('placa');
+            var numero_espacio = $(this).data('numero_espacio');
+            var fecha_ingreso = $(this).data('fecha_ingreso');
+            var hora_ingreso = $(this).data('hora_ingreso');
+
+            $('#ticket_id').val(ticket_id);
+            $('#codigo_ticket').html(codigo);
+            $('#cliente').html(cliente);
+            $('#documento').html(documento);
+            $('#placa').html(placa);
+            $('#numero_espacio').html(numero_espacio);
+            $('#fecha_ingreso').html(fecha_ingreso);
+            $('#hora_ingreso').html(hora_ingreso);
+
+
+            ticket_a_imprimir = $(this).data('ticket-id');
+
+            // $('#btn_imprimir_ticket').attr('href', urlImprimir);
             $('#modal_ocupado').modal('show');
         });
+
+        $('#btn_imprimir_ticket').on('click', function() {
+            if (ticket_a_imprimir) {
+                var urlImprimir = "{{ url('/admin/ticket') }}/" + ticket_a_imprimir + "/imprimir";
+                $('#pdf_iframe_ticket').attr('src', urlImprimir);
+            }
+        });
+    </script>
+
+    @if (session('ticket_id'))
+        <script>
+            var ticket_id = "{{ session('ticket_id') }}";
+            var urlImprimir = "{{ url('/admin/ticket') }}/" + ticket_id + "/imprimir";
+            $('#pdf_iframe_ticket').attr('src', urlImprimir);
+            $('#modal_pdf_ticket').modal('show');
+        </script>
+    @endif
+
+    <script>
+
+        $('#btn_cancelar_ticket').on('click', function(){
+            alert("hola");
+        });
+
+        < script >
+            function preguntar(event) {
+                event.preventDefault();
+
+                Swal.fire({
+                    title: '¿Desea eliminar este registro?',
+                    text: 'Esta acción no se puede deshacer',
+                    icon: 'warning',
+                    showDenyButton: true,
+                    confirmButtonText: 'Sí, eliminar',
+                    confirmButtonColor: '#a5161d',
+                    denyButtonColor: '#270a0a',
+                    denyButtonText: 'Cancelar',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('miFormulario').submit();
+                    }
+                });
+            }
+    </script>
     </script>
 @stop

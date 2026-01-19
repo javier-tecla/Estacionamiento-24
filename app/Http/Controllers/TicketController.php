@@ -95,7 +95,8 @@ class TicketController extends Controller
 
         return redirect()->route('admin.tickets.index')
             ->with('mensaje', 'Ticket registrado correctamente')
-            ->with('icono', 'success');
+            ->with('icono', 'success')
+            ->with('ticket_id', $ticket->id);
 
     }
 

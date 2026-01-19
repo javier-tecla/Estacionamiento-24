@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ticket</title>
-    <style>
+    {{-- <style>
         body {
             font-family: 'Courier New', Courier, monospace;
             font-size: 12px;
@@ -31,6 +31,56 @@
         .line {
             border-top: 1px dashed #000;
             margin: 5px 0;
+        }
+    </style> --}}
+    <style>
+        /* Estilos para centrar el ticket en la pantalla */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0; /* Color de fondo externo */
+            display: flex;
+            justify-content: center; /* Centrado horizontal */
+            align-items: flex-start; /* Alineado al inicio superior */
+        }
+
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            line-height: 1.2;
+            width: 300px;
+            background-color: #fff; /* Color del ticket */
+            padding: 15px; /* Margen interno del ticket */
+            box-sizing: border-box;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1); /* Sombra opcional para verlo mejor */
+        }
+
+        .container {
+            width: 100%;
+        }
+
+        .line {
+            border-top: 1px dashed #000;
+            margin: 5px 0;
+        }
+
+        /* Estilo para asegurar que el texto se mantenga centrado donde debe */
+        .text-center {
+            text-align: center;
+        }
+
+        /* Configuración para impresión */
+        @media print {
+            html, body {
+                background-color: #fff;
+                display: block;
+            }
+            body {
+                box-shadow: none;
+                width: 100%;
+                padding: 0;
+            }
         }
     </style>
 </head>
@@ -75,8 +125,11 @@
         <!-- Firmas -->
         <div class="footer">
             <small style="font-size: 6pt">
-                <b>Usuario:</b> {{ $ticket->usuario->name }} <br>
-                <b>Fecha de impresión:</b> {{ \Carbon\Carbon::parse($fecha_hora)->format('d/m/Y - h:i:s A') }}
+                <b>Cajero/a:</b> {{ $ticket->usuario->name }} <br>
+                <b>Fecha de impresión:</b> {{ \Carbon\Carbon::parse($fecha_hora)->format('d/m/Y') }} <br>
+                <b>Hora de impresión:</b> {{ \Carbon\Carbon::parse($fecha_hora)->format('h:i:s A') }} <br>
+                <br>
+                <div class="text-center"><b>¡Gracias por su preferencia!</b></div>
             </small>
         </div>
     </div>
