@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
+use Carbon\Carbon;
 use App\Models\Ajuste;
-use App\Models\Espacio;
 use App\Models\Tarifa;
 use App\Models\Ticket;
+use App\Models\Espacio;
 use App\Models\Vehiculo;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
 {
@@ -105,20 +106,38 @@ class TicketController extends Controller
         $ticket = Ticket::with('cliente')->find($id);
         $ajuste = Ajuste::first();
         $fecha_hora = Carbon::now();
-        $pdf = PDF::loadView('admin.tickets.ticket_pdf',compact('ticket','ajuste','fecha_hora'));
+        $pdf = PDF::loadView('admin.tickets.ticket_pdf', compact('ticket', 'ajuste', 'fecha_hora'));
 
         // Configuración para impresora térmica (80mm de ancho, alto automático)
         $pdf->setOptions([
             'dpi' => 120,
-            'defaultPaperSize' => [0, 0, 226.77, 0], // 80mm = 226.77 puntos 
+            'defaultPaperSize' => [0, 0, 226.77, 0], // 80mm = 226.77 puntos
             'isHtml5ParserEnabled' => true,
             'isRemoteEnabled' => true,
-            'defaultFont' => 'Arial Narrow'
+            'defaultFont' => 'Arial Narrow',
         ]);
 
         $pdf->setPaper([0, 0, 226.77, 999999]); // 80mm de ancho, alto infinito
 
         return $pdf->stream('ticket.pdf');
+    }
+
+    public function finalizar_ticket($id)
+    {
+        $ticket = Ticket::find($id);
+
+        $fecha_hora_ingreso = new DateTime($ticket->fecha_ingreso." ".$ticket->hora_ingreso);
+        $fecha_hora_salida = new DateTime(Carbon::now());
+
+        $diff = $fecha_hora_ingreso->diff($fecha_hora_salida);
+        $dias_calculado = $diff->days;
+        $horas_calculado = $diff->h;
+        $minutos_calculado = $diff->i;
+
+        $tiempo_total = $dias_calculado." días con ".$horas_calculado." horas con ".$minutos_calculado." minutos";
+
+
+        
     }
 
     /**
@@ -156,6 +175,6 @@ class TicketController extends Controller
         return redirect()->route('admin.tickets.index')
             ->with('mensaje', 'Ticket cancelado correctamente')
             ->with('icono', 'success');
-            
+
     }
 }
