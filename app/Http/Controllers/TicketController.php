@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use DateTime;
-use Carbon\Carbon;
 use App\Models\Ajuste;
+use App\Models\Espacio;
 use App\Models\Tarifa;
 use App\Models\Ticket;
-use App\Models\Espacio;
 use App\Models\Vehiculo;
-use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use DateTime;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TicketController extends Controller
 {
@@ -126,7 +126,7 @@ class TicketController extends Controller
     {
         $ticket = Ticket::find($id);
 
-        $fecha_hora_ingreso = new DateTime($ticket->fecha_ingreso." ".$ticket->hora_ingreso);
+        $fecha_hora_ingreso = new DateTime($ticket->fecha_ingreso.' '.$ticket->hora_ingreso);
         $fecha_hora_salida = new DateTime(Carbon::now());
 
         $diff = $fecha_hora_ingreso->diff($fecha_hora_salida);
@@ -134,15 +134,102 @@ class TicketController extends Controller
         $horas_calculado = $diff->h;
         $minutos_calculado = $diff->i;
 
-        $tiempo_total = $dias_calculado." días con ".$horas_calculado." horas con ".$minutos_calculado." minutos";
+        // diferencia en minutos
+        $diferencia_minutos = ($diff->h * 60) + ($diff->i);
 
 
-        
+        $tiempo_total = $dias_calculado.' días con '.$horas_calculado.' horas con '.$minutos_calculado.' minutos';
+
+        switch ($ticket->tarifa->tipo) {
+            case 'por_hora':
+                switch ($ticket->tarifa->nombre) {
+                    case 'regular':
+                        if ($minutos_calculado > $ticket->tarifa->minutos_de_gracia) {
+                            $horas_calculado = $horas_calculado + 1;
+                        } else {
+                            $horas_calculado = $horas_calculado;
+                        }
+                        $precio = Tarifa::where('tipo', 'por_hora')->where('nombre', 'regular')->where('cantidad', $horas_calculado)->first();
+                        $monto_total = $precio->costo;
+                        break;
+                    case 'nocturno':
+                        if ($minutos_calculado > $ticket->tarifa->minutos_de_gracia) {
+                            $horas_calculado = $horas_calculado + 1;
+                        } else {
+                            $horas_calculado = $horas_calculado;
+                        }
+                        $precio = Tarifa::where('tipo', 'por_hora')->where('nombre', 'nocturno')->where('cantidad', $horas_calculado)->first();
+                        $monto_total = $precio->costo;
+                        break;
+                    case 'fin_de_semana':
+                        if ($minutos_calculado > $ticket->tarifa->minutos_de_gracia) {
+                            $horas_calculado = $horas_calculado + 1;
+                        } else {
+                            $horas_calculado = $horas_calculado;
+                        }
+                        $precio = Tarifa::where('tipo', 'por_hora')->where('nombre', 'fin_de_semana')->where('cantidad', $horas_calculado)->first();
+                        $monto_total = $precio->costo;
+                        break;
+                    case 'feriados':
+                        if ($minutos_calculado > $ticket->tarifa->minutos_de_gracia) {
+                            $horas_calculado = $horas_calculado + 1;
+                        } else {
+                            $horas_calculado = $horas_calculado;
+                        }
+                        $precio = Tarifa::where('tipo', 'por_hora')->where('nombre', 'feriados')->where('cantidad', $horas_calculado)->first();
+                        $monto_total = $precio->costo;
+                        break;
+                }
+                break;
+
+            case 'por_dia':
+                switch ($ticket->tarifa->nombre) {
+                    case 'regular':
+                        if ($diferencia_minutos > $ticket->tarifa->minutos_de_gracia) {
+                            $dias_calculado = $dias_calculado + 1;
+                        } else {
+                            $dias_calculado = $dias_calculado;
+                        }
+                        $precio = Tarifa::where('tipo', 'por_dia')->where('nombre', 'regular')->where('cantidad', $dias_calculado)->first();
+                        $monto_total = $precio->costo;
+                        break;
+                    case 'nocturno':
+                        if ($diferencia_minutos > $ticket->tarifa->minutos_de_gracia) {
+                            $dias_calculado = $dias_calculado + 1;
+                        } else {
+                            $dias_calculado = $dias_calculado;
+                        }
+                        $precio = Tarifa::where('tipo', 'por_dia')->where('nombre', 'nocturno')->where('cantidad', $dias_calculado)->first();
+                        $monto_total = $precio->costo;
+                        break;
+                    case 'fin_de_semana':
+                        if ($diferencia_minutos > $ticket->tarifa->minutos_de_gracia) {
+                            $dias_calculado = $dias_calculado + 1;
+                        } else {
+                            $dias_calculado = $dias_calculado;
+                        }
+                        $precio = Tarifa::where('tipo', 'por_dia')->where('nombre', 'fin_de_semana')->where('cantidad', $dias_calculado)->first();
+                        $monto_total = $precio->costo;
+                        break;
+                    case 'feriados':
+                        if ($diferencia_minutos > $ticket->tarifa->minutos_de_gracia) {
+                            $dias_calculado = $dias_calculado + 1;
+                        } else {
+                            $dias_calculado = $dias_calculado;
+                        }
+                        $precio = Tarifa::where('tipo', 'por_dia')->where('nombre', 'feriados')->where('cantidad', $dias_calculado)->first();
+                        $monto_total = $precio->costo;
+                        break;
+                }
+                break;
+        }
+
+
     }
 
     /**
      * Display the specified resource.
-     */
+    //  */
     public function show(Ticket $ticket)
     {
         //
