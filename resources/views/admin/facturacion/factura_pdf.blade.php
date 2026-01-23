@@ -90,7 +90,7 @@
 
         <!-- Datos del cliente -->
         <div style="text-align: left;">
-            <strong>Datos del cliente</strong><br>
+            <strong>DATOS DEL CLIENTE</strong><br>
             <b>Señor(a):</b> {{ $factura->nombre_cliente }}<br>
             <b>Documento:</b> {{ $factura->nro_documento }}<br>
             <b>Placa del vehiculo:</b> {{ $factura->placa }}<br>
@@ -100,6 +100,7 @@
 
         <!-- Datos del pago -->
         <div>
+             <strong>DATOS DEL SERVICIO</strong><br>
             <b>Espacio nro:</b> {{ $factura->ticket->espacio->numero }} <br>
             <b>Fecha de ingreso:</b> {{ \Carbon\Carbon::parse($factura->fecha_ingreso)->format('d/m/Y') }} <br>
             <b>Hora de ingreso:</b> {{ \Carbon\Carbon::parse($factura->hora_ingreso)->format('H:i A') }} <br>
@@ -127,6 +128,12 @@
             </table>
             <p style="text-align: right"><b>Monto Total: {{ $ajuste->divisa." ".$factura->monto }}</b></p>
         </div>
+
+         <div class="line"></div>
+
+        <p style="text-align: center">
+            <img src="{{ $barcodePNG }}" style="width: 100px; height: 100px; display: block; margin: 0 auto;" alt="">
+        </p>
 
         <div class="line"></div>
 
