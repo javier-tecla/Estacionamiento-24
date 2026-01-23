@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
+use Carbon\Carbon;
 use App\Models\Ajuste;
-use App\Models\Espacio;
 use App\Models\Tarifa;
 use App\Models\Ticket;
+use App\Models\Espacio;
 use App\Models\Vehiculo;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Carbon\Carbon;
-use DateTime;
+use App\Models\Facturacion;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
 {
@@ -149,8 +150,8 @@ class TicketController extends Controller
                         } else {
                             $horas_calculado = $horas_calculado;
                         }
-                        $precio = Tarifa::where('tipo', 'por_hora')->where('nombre', 'regular')->where('cantidad', $horas_calculado)->first();
-                        $monto_total = $precio->costo;
+                        $tarifa = Tarifa::where('tipo', 'por_hora')->where('nombre', 'regular')->where('cantidad', $horas_calculado)->first();
+                        $monto_total = $tarifa->costo;
                         break;
                     case 'nocturno':
                         if ($minutos_calculado > $ticket->tarifa->minutos_de_gracia) {
@@ -158,8 +159,8 @@ class TicketController extends Controller
                         } else {
                             $horas_calculado = $horas_calculado;
                         }
-                        $precio = Tarifa::where('tipo', 'por_hora')->where('nombre', 'nocturno')->where('cantidad', $horas_calculado)->first();
-                        $monto_total = $precio->costo;
+                        $tarifa = Tarifa::where('tipo', 'por_hora')->where('nombre', 'nocturno')->where('cantidad', $horas_calculado)->first();
+                        $monto_total = $tarifa->costo;
                         break;
                     case 'fin_de_semana':
                         if ($minutos_calculado > $ticket->tarifa->minutos_de_gracia) {
@@ -167,8 +168,8 @@ class TicketController extends Controller
                         } else {
                             $horas_calculado = $horas_calculado;
                         }
-                        $precio = Tarifa::where('tipo', 'por_hora')->where('nombre', 'fin_de_semana')->where('cantidad', $horas_calculado)->first();
-                        $monto_total = $precio->costo;
+                        $tarifa = Tarifa::where('tipo', 'por_hora')->where('nombre', 'fin_de_semana')->where('cantidad', $horas_calculado)->first();
+                        $monto_total = $tarifa->costo;
                         break;
                     case 'feriados':
                         if ($minutos_calculado > $ticket->tarifa->minutos_de_gracia) {
@@ -176,8 +177,8 @@ class TicketController extends Controller
                         } else {
                             $horas_calculado = $horas_calculado;
                         }
-                        $precio = Tarifa::where('tipo', 'por_hora')->where('nombre', 'feriados')->where('cantidad', $horas_calculado)->first();
-                        $monto_total = $precio->costo;
+                        $tarifa = Tarifa::where('tipo', 'por_hora')->where('nombre', 'feriados')->where('cantidad', $horas_calculado)->first();
+                        $monto_total = $tarifa->costo;
                         break;
                 }
                 break;
@@ -190,8 +191,8 @@ class TicketController extends Controller
                         } else {
                             $dias_calculado = $dias_calculado;
                         }
-                        $precio = Tarifa::where('tipo', 'por_dia')->where('nombre', 'regular')->where('cantidad', $dias_calculado)->first();
-                        $monto_total = $precio->costo;
+                        $tarifa = Tarifa::where('tipo', 'por_dia')->where('nombre', 'regular')->where('cantidad', $dias_calculado)->first();
+                        $monto_total = $tarifa->costo;
                         break;
                     case 'nocturno':
                         if ($diferencia_minutos > $ticket->tarifa->minutos_de_gracia) {
@@ -199,8 +200,8 @@ class TicketController extends Controller
                         } else {
                             $dias_calculado = $dias_calculado;
                         }
-                        $precio = Tarifa::where('tipo', 'por_dia')->where('nombre', 'nocturno')->where('cantidad', $dias_calculado)->first();
-                        $monto_total = $precio->costo;
+                        $tarifa = Tarifa::where('tipo', 'por_dia')->where('nombre', 'nocturno')->where('cantidad', $dias_calculado)->first();
+                        $monto_total = $tarifa->costo;
                         break;
                     case 'fin_de_semana':
                         if ($diferencia_minutos > $ticket->tarifa->minutos_de_gracia) {
@@ -208,8 +209,8 @@ class TicketController extends Controller
                         } else {
                             $dias_calculado = $dias_calculado;
                         }
-                        $precio = Tarifa::where('tipo', 'por_dia')->where('nombre', 'fin_de_semana')->where('cantidad', $dias_calculado)->first();
-                        $monto_total = $precio->costo;
+                        $tarifa = Tarifa::where('tipo', 'por_dia')->where('nombre', 'fin_de_semana')->where('cantidad', $dias_calculado)->first();
+                        $monto_total = $tarifa->costo;
                         break;
                     case 'feriados':
                         if ($diferencia_minutos > $ticket->tarifa->minutos_de_gracia) {
@@ -217,13 +218,46 @@ class TicketController extends Controller
                         } else {
                             $dias_calculado = $dias_calculado;
                         }
-                        $precio = Tarifa::where('tipo', 'por_dia')->where('nombre', 'feriados')->where('cantidad', $dias_calculado)->first();
-                        $monto_total = $precio->costo;
+                        $tarifa = Tarifa::where('tipo', 'por_dia')->where('nombre', 'feriados')->where('cantidad', $dias_calculado)->first();
+                        $monto_total = $tarifa->costo;
                         break;
                 }
                 break;
         }
 
+        // actualizar ticket en la base de datos
+        $fecha_hora = Carbon::now();
+        $ticket->tarifa_id = $tarifa->id;
+        $ticket->fecha_salida = $fecha_hora->toDateString();
+        $ticket->hora_salida = $fecha_hora->toTimeString();
+        $ticket->tiempo_total = $tiempo_total;
+        $ticket->monto_total = $monto_total;
+        $ticket->estado_ticket = 'completado';
+        $ticket->save();
+
+        // registrar la factura
+        $factura = new Facturacion();
+        $factura->ticket_id = $ticket->id;
+        $factura->usuario_id = Auth::user()->id;
+
+        // numero de factura
+        $ultima_factura = DB::table('facturacions')->max('id');
+        $siguiente_factura = $ultima_factura ? $ultima_factura + 1 : 1;
+        $nro_factura = $siguiente_factura;
+
+
+        $factura->nro_factura = $nro_factura;
+        $factura->nombre_cliente = $ticket->cliente->nombres;
+        $factura->nro_documento = $ticket->cliente->numero_documento;
+        $factura->placa = $ticket->vehiculo->placa;
+        $factura->detalle = "Servicio de estacionamiento de ".$tiempo_total;
+        $factura->monto = $monto_total;
+        $factura->save();
+
+        return redirect()->route('admin.tickets.index')
+            ->with('mensaje', 'Ticket facturado correctamente')
+            ->with('icono', 'success')
+            ->with('ticket_id', $ticket->id);
 
     }
 

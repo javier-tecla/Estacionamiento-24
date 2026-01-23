@@ -106,3 +106,19 @@ Table tickets {
     created_at timestamp
     updated_at timestamp
 }
+
+Table facturaciones {
+    id int [pk, increment]
+
+    ticket_id int [ref: > tickets.id]
+    usuario_id int [ref: > usuarios.id]
+    nro_factura int
+    nombre_cliente string
+    nro_documento string
+    placa string
+    detalle string
+    monto_total decimal 
+
+    created_at timestamp
+    updated_at timestamp
+}

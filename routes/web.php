@@ -74,3 +74,6 @@ Route::post('/admin/tickets/create', [App\Http\Controllers\TicketController::cla
 Route::get('/admin/ticket/{id}/imprimir', [App\Http\Controllers\TicketController::class,'imprimir_ticket'])->name('admin.tickets.imprimir_ticket')->middleware('auth');
 Route::get('/admin/ticket/{id}/finalizar_ticket', [App\Http\Controllers\TicketController::class,'finalizar_ticket'])->name('admin.tickets.finalizar_ticket')->middleware('auth');
 Route::delete('/admin/ticket/{id}', [App\Http\Controllers\TicketController::class,'destroy'])->name('admin.tickets.destroy')->middleware('auth');
+
+// Rutas para facturacion
+Route::get('/admin/factura/{id}', [App\Http\Controllers\FacturacionController::class,'imprimir_factura'])->name('admin.facturacion.imprimir_factura')->middleware('auth');
