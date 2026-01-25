@@ -36,6 +36,21 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-info">
+                        <a href="{{ url('/admin/roles') }}">
+                            <img src="{{ url('/images/user.gif') }}" width="100%" alt="">
+                        </a>
+                    </span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Usuarios registrados</span>
+                        <span class="info-box-number">{{ $total_usuarios }} usuarios</span>
+                    </div>
+                </div>
+            </div>
         @stop
 
         @section('css')
