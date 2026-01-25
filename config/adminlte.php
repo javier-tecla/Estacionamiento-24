@@ -494,6 +494,23 @@ return [
                 ],
             ],
         ],
+
+        'VanillaCalendar' => [
+                'active' => true,
+                'files' => [
+                    [
+                        'type' => 'css',
+                        'asset' => false,
+                        'location' => 'https://cdn.jsdelivr.net/npm/vanilla-calendar-pro/build/vanilla-calendar.min.css',
+                    ],
+                    [
+                        'type' => 'js',
+                        'asset' => false,
+                        'location' => 'https://cdn.jsdelivr.net/npm/vanilla-calendar-pro/build/vanilla-calendar.min.js',
+                    ],
+                ],
+            ],
+            
         'Sweetalert2' => [
             'active' => true,
             'files' => [
