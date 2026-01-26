@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Espacio;
+use App\Models\Tarifa;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -17,7 +18,11 @@ class AdminController extends Controller
         })->withTrashed()->count();
 
         $total_espacios = Espacio::count();
+        $total_espacios_libres = Espacio::where('estado', 'libre')->count();
+        $total_espacios_ocupados = Espacio::where('estado', 'ocupado')->count();
+        $total_espacios_mantenimiento = Espacio::where('estado', 'mantenimiento')->count();
+        $total_tarifas = Tarifa::count();
 
-        return view('admin.index', compact('total_roles', 'total_usuarios', 'total_espacios'));
+        return view('admin.index', compact('total_roles', 'total_usuarios', 'total_espacios', 'total_espacios_libres', 'total_espacios_ocupados', 'total_espacios_mantenimiento', 'total_tarifas'));
     }
 }
