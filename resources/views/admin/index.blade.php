@@ -87,10 +87,53 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-info">
+                                <a href="{{ url('/admin/clientes') }}">
+                                    <img src="{{ url('/images/cliente.gif') }}" width="100%" alt="">
+                                </a>
+                            </span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Clientes registrados</span>
+                                <span class="info-box-number">{{ $total_clientes }} clientes</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-info">
+                                <a href="{{ url('/admin/vehiculos') }}">
+                                    <img src="{{ url('/images/coche.gif') }}" width="100%" alt="">
+                                </a>
+                            </span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Vehículos registrados</span>
+                                <span class="info-box-number">{{ $total_vehiculos }} Vehículos</span>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-info">
+                                <a href="{{ url('/admin/tickets') }}">
+                                    <img src="{{ url('/images/boleto.gif') }}" width="100%" alt="">
+                                </a>
+                            </span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Tickets activos</span>
+                                <span class="info-box-number">{{ $total_tickets_activos }} Tickets</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-
 
             <div class="col-md-3">
                 <h1 id="reloj-hora" class="text-center font-weight-bold"></h1>
@@ -110,9 +153,9 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
+
+            
         </div>
     @stop
 
