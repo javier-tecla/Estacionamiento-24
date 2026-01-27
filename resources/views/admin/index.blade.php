@@ -25,7 +25,7 @@
             <div class="col-md-9">
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
+                        <div class="info-box zoomP">
                             <span class="info-box-icon bg-info">
                                 <a href="{{ url('/admin/roles') }}">
                                     <img src="{{ url('/images/role.gif') }}" width="100%" alt="">
@@ -40,7 +40,7 @@
                     </div>
 
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
+                        <div class="info-box zoomP">
                             <span class="info-box-icon bg-info">
                                 <a href="{{ url('/admin/usuarios') }}">
                                     <img src="{{ url('/images/usuario.gif') }}" width="100%" alt="">
@@ -55,7 +55,7 @@
                     </div>
 
                     <div class="col-md-6 col-sm-6 col-12">
-                        <div class="info-box">
+                        <div class="info-box zoomP">
                             <span class="info-box-icon bg-info">
                                 <a href="{{ url('/admin/espacios') }}">
                                     <img src="{{ url('/images/aparcamiento.gif') }}" width="100%" alt="">
@@ -74,7 +74,7 @@
 
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
+                        <div class="info-box zoomP">
                             <span class="info-box-icon bg-info">
                                 <a href="{{ url('/admin/tarifas') }}">
                                     <img src="{{ url('/images/tarifas.gif') }}" width="100%" alt="">
@@ -89,7 +89,7 @@
                     </div>
 
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
+                        <div class="info-box zoomP">
                             <span class="info-box-icon bg-info">
                                 <a href="{{ url('/admin/clientes') }}">
                                     <img src="{{ url('/images/cliente.gif') }}" width="100%" alt="">
@@ -104,7 +104,7 @@
                     </div>
 
                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
+                        <div class="info-box zoomP">
                             <span class="info-box-icon bg-info">
                                 <a href="{{ url('/admin/vehiculos') }}">
                                     <img src="{{ url('/images/coche.gif') }}" width="100%" alt="">
@@ -118,8 +118,8 @@
                         </div>
                     </div>
 
-                     <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box">
+                    <div class="col-md-3 col-sm-6 col-12">
+                        <div class="info-box zoomP">
                             <span class="info-box-icon bg-info">
                                 <a href="{{ url('/admin/tickets') }}">
                                     <img src="{{ url('/images/boleto.gif') }}" width="100%" alt="">
@@ -133,6 +133,23 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-3 col-6">
+                        <!-- small card -->
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3>{{ $ajuste->divisa." ".$ingreso_hoy }}</h3>
+
+                                <p>Ingresos de hoy</p>
+                            </div>
+                            <div class="icon ">
+                                <i class="fas fa-money-bill-wave" style="font-size: 40px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <div class="col-md-3">
@@ -155,11 +172,24 @@
                 </div>
             </div>
 
-            
+
         </div>
     @stop
 
     @section('css')
+        <style>
+            .zoomP {
+                transition: transform 0.3s ease;
+                /* Transición suave para el efecto de zoom */
+                border: 1px solid #c0c0c0;
+                box-shadow: #c0c0c0 0px 5px 5px 0px;
+            }
+
+            .zoomP:hover {
+                transform: scale(1.05);
+                /* Escala el elemento al 105% de su tamaño original al pasar el mouser */
+            }
+        </style>
         {{-- Add here extra stylesheets --}}
         {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
     @stop

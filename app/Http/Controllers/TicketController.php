@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use DateTime;
-use Carbon\Carbon;
 use App\Models\Ajuste;
+use App\Models\Espacio;
+use App\Models\Facturacion;
 use App\Models\Tarifa;
 use App\Models\Ticket;
-use App\Models\Espacio;
 use App\Models\Vehiculo;
-use App\Models\Facturacion;
-use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use DateTime;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TicketController extends Controller
 {
@@ -138,7 +138,6 @@ class TicketController extends Controller
         // diferencia en minutos
         $diferencia_minutos = ($diff->h * 60) + ($diff->i);
 
-
         $tiempo_total = $dias_calculado.' días con '.$horas_calculado.' horas con '.$minutos_calculado.' minutos';
 
         switch ($ticket->tarifa->tipo) {
@@ -236,21 +235,23 @@ class TicketController extends Controller
         $ticket->save();
 
         // registrar la factura
-        $factura = new Facturacion();
+        $factura = new Facturacion;
         $factura->ticket_id = $ticket->id;
         $factura->usuario_id = Auth::user()->id;
 
+        $ultimo_nro_factura = Facturacion::max('nro_factura');
+        $factura->nro_factura = $ultimo_nro_factura ? $ultimo_nro_factura + 1 : 1;
+
         // numero de factura
         $ultima_factura = DB::table('facturacions')->max('id');
-        $siguiente_factura = $ultima_factura ? $ultima_factura + 1 : 1;
-        $nro_factura = $siguiente_factura;
+        // $siguiente_factura = $ultima_factura ? $ultima_factura + 1 : 1;
+        // $nro_factura = $siguiente_factura;
 
-
-        $factura->nro_factura = $nro_factura;
+        // $factura->nro_factura = $nro_factura;
         $factura->nombre_cliente = $ticket->cliente->nombres;
         $factura->nro_documento = $ticket->cliente->numero_documento;
         $factura->placa = $ticket->vehiculo->placa;
-        $factura->detalle = "Servicio de estacionamiento de ".$tiempo_total;
+        $factura->detalle = 'Servicio de estacionamiento de '.$tiempo_total;
         $factura->monto = $monto_total;
         $factura->save();
 

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cliente;
+use App\Models\Ajuste;
+use Carbon\Carbon;
 use App\Models\User;
-use App\Models\Espacio;
 use App\Models\Tarifa;
 use App\Models\Ticket;
+use App\Models\Cliente;
+use App\Models\Espacio;
 use App\Models\Vehiculo;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -15,6 +17,7 @@ class AdminController extends Controller
 {
     public function index()
     {
+        $ajuste = Ajuste::first();
         $total_roles = Role::count();
         $total_usuarios = User::whereDoesntHave('roles', function($query){
             $query->where('name', 'SUPER ADMIN');
@@ -29,6 +32,11 @@ class AdminController extends Controller
         $total_vehiculos = Vehiculo::count();
         $total_tickets_activos = Ticket::where('estado_ticket', 'activo')->count();
 
-        return view('admin.index', compact('total_roles', 'total_usuarios', 'total_espacios', 'total_espacios_libres', 'total_espacios_ocupados', 'total_espacios_mantenimiento', 'total_tarifas', 'total_clientes', 'total_vehiculos', 'total_tickets_activos'));
+        // Calculo de ingresos
+        $ingreso_hoy = Ticket::where('estado_ticket','completado')
+        ->whereDate('fecha_salida', Carbon::today())
+        ->sum('monto_total');
+
+        return view('admin.index', compact('ajuste', 'total_roles', 'total_usuarios', 'total_espacios', 'total_espacios_libres', 'total_espacios_ocupados', 'total_espacios_mantenimiento', 'total_tarifas', 'total_clientes', 'total_vehiculos', 'total_tickets_activos', 'ingreso_hoy'));
     }
 }
