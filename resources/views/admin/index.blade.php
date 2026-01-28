@@ -139,12 +139,98 @@
                         <!-- small card -->
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>{{ $ajuste->divisa." ".$ingreso_hoy }}</h3>
+                                <h4>{{ $ajuste->divisa." ".$ingreso_hoy }}</h4>
 
                                 <p>Ingresos de hoy</p>
                             </div>
                             <div class="icon ">
                                 <i class="fas fa-money-bill-wave" style="font-size: 40px;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-6">
+                        <!-- small card -->
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h4>{{ $ajuste->divisa." ".$ingreso_ayer }}</h4>
+
+                                <p>Ingresos de ayer</p>
+                            </div>
+                            <div class="icon ">
+                                <i class="fas fa-money-bill-wave" style="font-size: 40px;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-6">
+                        <!-- small card -->
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h4>{{ $ajuste->divisa." ".$ingreso_esta_semana }}</h4>
+
+                                <p>Ingresos actual semana</p>
+                            </div>
+                            <div class="icon ">
+                                <i class="fas fa-calendar-day" style="font-size: 40px;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="col-md-3 col-6">
+                        <!-- small card -->
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h4>{{ $ajuste->divisa." ".$ingreso_semana_anterior }}</h4>
+
+                                <p>Ingresos semana anterior</p>
+                            </div>
+                            <div class="icon ">
+                                <i class="fas fa-calendar-week" style="font-size: 40px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3 col-6">
+                        <!-- small card -->
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h4>{{ $ajuste->divisa." ".$ingreso_este_mes }}</h4>
+
+                                <p>Ingresos mes actual</p>
+                            </div>
+                            <div class="icon ">
+                                <i class="fas fa-chart-line" style="font-size: 40px;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-6">
+                        <!-- small card -->
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h4>{{ $ajuste->divisa." ".$ingreso_mes_anterior }}</h4>
+
+                                <p>Ingresos mes anterior</p>
+                            </div>
+                            <div class="icon ">
+                                <i class="fas fa-chart-bar" style="font-size: 40px;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-6">
+                        <!-- small card -->
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h4>{{ $ajuste->divisa." ".$ingreso_total }}</h4>
+
+                                <p>Ingresos total en el sistema</p>
+                            </div>
+                            <div class="icon ">
+                                <i class="fas fa-money-bill" style="font-size: 40px;"></i>
                             </div>
                         </div>
                     </div>

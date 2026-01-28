@@ -239,15 +239,15 @@ class TicketController extends Controller
         $factura->ticket_id = $ticket->id;
         $factura->usuario_id = Auth::user()->id;
 
-        $ultimo_nro_factura = Facturacion::max('nro_factura');
-        $factura->nro_factura = $ultimo_nro_factura ? $ultimo_nro_factura + 1 : 1;
+        // $ultimo_nro_factura = Facturacion::max('nro_factura');
+        // $factura->nro_factura = $ultimo_nro_factura ? $ultimo_nro_factura + 1 : 1;
 
         // numero de factura
         $ultima_factura = DB::table('facturacions')->max('id');
-        // $siguiente_factura = $ultima_factura ? $ultima_factura + 1 : 1;
-        // $nro_factura = $siguiente_factura;
+        $siguiente_factura = $ultima_factura ? $ultima_factura + 1 : 1;
+        $nro_factura = $siguiente_factura;
 
-        // $factura->nro_factura = $nro_factura;
+        $factura->nro_factura = $nro_factura;
         $factura->nombre_cliente = $ticket->cliente->nombres;
         $factura->nro_documento = $ticket->cliente->numero_documento;
         $factura->placa = $ticket->vehiculo->placa;
@@ -258,7 +258,7 @@ class TicketController extends Controller
         return redirect()->route('admin.tickets.index')
             ->with('mensaje', 'Ticket facturado correctamente')
             ->with('icono', 'success')
-            ->with('ticket_id', $ticket->id);
+            ->with('factura_id', $factura->id);
 
     }
 

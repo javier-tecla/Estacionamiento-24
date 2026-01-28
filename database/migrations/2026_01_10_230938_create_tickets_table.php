@@ -25,7 +25,7 @@ return new class extends Migration
             $table->time('hora_ingreso');
             $table->date('fecha_salida')->nullable();
             $table->time('hora_salida')->nullable();
-            $table->string('tiempo_total');
+            $table->string('tiempo_total')->nullable();
             $table->decimal('monto_total',10,2)->nullable();
             $table->enum('estado_ticket',['activo','completado','cancelado']);
             $table->string('obs')->nullable();
