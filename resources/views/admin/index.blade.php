@@ -139,7 +139,7 @@
                         <!-- small card -->
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h4>{{ $ajuste->divisa." ".$ingreso_hoy }}</h4>
+                                <h4>{{ $ajuste->divisa . ' ' . $ingreso_hoy }}</h4>
 
                                 <p>Ingresos de hoy</p>
                             </div>
@@ -153,7 +153,7 @@
                         <!-- small card -->
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h4>{{ $ajuste->divisa." ".$ingreso_ayer }}</h4>
+                                <h4>{{ $ajuste->divisa . ' ' . $ingreso_ayer }}</h4>
 
                                 <p>Ingresos de ayer</p>
                             </div>
@@ -167,7 +167,7 @@
                         <!-- small card -->
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h4>{{ $ajuste->divisa." ".$ingreso_esta_semana }}</h4>
+                                <h4>{{ $ajuste->divisa . ' ' . $ingreso_esta_semana }}</h4>
 
                                 <p>Ingresos actual semana</p>
                             </div>
@@ -177,11 +177,11 @@
                         </div>
                     </div>
 
-                     <div class="col-md-3 col-6">
+                    <div class="col-md-3 col-6">
                         <!-- small card -->
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h4>{{ $ajuste->divisa." ".$ingreso_semana_anterior }}</h4>
+                                <h4>{{ $ajuste->divisa . ' ' . $ingreso_semana_anterior }}</h4>
 
                                 <p>Ingresos semana anterior</p>
                             </div>
@@ -197,7 +197,7 @@
                         <!-- small card -->
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h4>{{ $ajuste->divisa." ".$ingreso_este_mes }}</h4>
+                                <h4>{{ $ajuste->divisa . ' ' . $ingreso_este_mes }}</h4>
 
                                 <p>Ingresos mes actual</p>
                             </div>
@@ -211,7 +211,7 @@
                         <!-- small card -->
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h4>{{ $ajuste->divisa." ".$ingreso_mes_anterior }}</h4>
+                                <h4>{{ $ajuste->divisa . ' ' . $ingreso_mes_anterior }}</h4>
 
                                 <p>Ingresos mes anterior</p>
                             </div>
@@ -225,12 +225,38 @@
                         <!-- small card -->
                         <div class="small-box bg-danger">
                             <div class="inner">
-                                <h4>{{ $ajuste->divisa." ".$ingreso_total }}</h4>
+                                <h4>{{ $ajuste->divisa . ' ' . $ingreso_total }}</h4>
 
                                 <p>Ingresos total en el sistema</p>
                             </div>
                             <div class="icon ">
                                 <i class="fas fa-money-bill" style="font-size: 40px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card card-outline card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title"><b>a</b></h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <canvas id="ingresosMensuales"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card card-outline card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title"><b>a</b></h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+
                             </div>
                         </div>
                     </div>
@@ -258,7 +284,6 @@
                 </div>
             </div>
 
-
         </div>
     @stop
 
@@ -281,6 +306,33 @@
     @stop
 
     @section('js')
+
+    <script>
+        const ingresosData = ['10','1','5','6','4','2','9',];
+        const ctx1 = document.getElementById('ingresosMensuales').getContext('2d');
+        new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                datasets: [{
+                    label: 'Ingresos ($)',
+                    data: ingresosData,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    bordrColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const calendar = new VanillaCalendar('#calendar', {
