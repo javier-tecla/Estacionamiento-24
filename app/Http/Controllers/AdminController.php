@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Ajuste;
-use App\Models\Cliente;
-use App\Models\Espacio;
 use App\Models\Tarifa;
 use App\Models\Ticket;
-use App\Models\User;
+use App\Models\Cliente;
+use App\Models\Espacio;
 use App\Models\Vehiculo;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
@@ -61,6 +62,22 @@ class AdminController extends Controller
         $ingreso_total = Ticket::where('estado_ticket', 'completado')
             ->sum('monto_total');
 
-        return view('admin.index', compact('ajuste', 'total_roles', 'total_usuarios', 'total_espacios', 'total_espacios_libres', 'total_espacios_ocupados', 'total_espacios_mantenimiento', 'total_tarifas', 'total_clientes', 'total_vehiculos', 'total_tickets_activos', 'ingreso_hoy', 'ingreso_ayer', 'ingreso_esta_semana', 'ingreso_semana_anterior', 'ingreso_este_mes', 'ingreso_mes_anterior', 'ingreso_total'));
+        // calculo para los datos del grafico
+    $ingresos_mensuales = Ticket::select(
+        DB::raw('MONTH(fecha_salida) as mes'),
+        DB::raw('SUM(monto_total) as total')
+    )->where('estado_ticket','completado')
+    ->groupBy('mes')
+    ->orderBy('mes')
+    ->get()
+    ->keyBy('mes')
+    ->toArray();
+
+    $ingresos_data = array_fill(1, 12, 0);
+    foreach($ingresos_mensuales as $mes => $data){
+        $ingresos_data[$mes] = $data['total'];
+    }
+
+        return view('admin.index', compact('ajuste', 'total_roles', 'total_usuarios', 'total_espacios', 'total_espacios_libres', 'total_espacios_ocupados', 'total_espacios_mantenimiento', 'total_tarifas', 'total_clientes', 'total_vehiculos', 'total_tickets_activos', 'ingreso_hoy', 'ingreso_ayer', 'ingreso_esta_semana', 'ingreso_semana_anterior', 'ingreso_este_mes', 'ingreso_mes_anterior', 'ingreso_total', 'ingresos_mensuales', 'ingresos_data'));
     }
 }

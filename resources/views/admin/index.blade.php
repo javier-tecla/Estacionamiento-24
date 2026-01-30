@@ -240,7 +240,7 @@
                     <div class="col-md-6">
                         <div class="card card-outline card-primary">
                             <div class="card-header">
-                                <h3 class="card-title"><b>a</b></h3>
+                                <h3 class="card-title"><b>Ingresos mensuales</b></h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -307,31 +307,32 @@
 
     @section('js')
 
-    <script>
-        const ingresosData = ['10','1','5','6','4','2','9',];
-        const ctx1 = document.getElementById('ingresosMensuales').getContext('2d');
-        new Chart(ctx1, {
-            type: 'bar',
-            data: {
-                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                datasets: [{
-                    label: 'Ingresos ($)',
-                    data: ingresosData,
-                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                    bordrColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
+        <script>
+            const ingresosData = @json(array_values($ingresos_data));
+            const ctx1 = document.getElementById('ingresosMensuales').getContext('2d');
+            new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                    datasets: [{
+                        label: 'Ingresos ($)',
+                        data: ingresosData,
+                        backgroundColor: 'rgba(54, 162, 235, 0.3)',
+                        bordrColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
                     }
                 }
-            }
-        });
-    </script>
+            });
+        </script>
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
