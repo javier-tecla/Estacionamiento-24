@@ -44,6 +44,8 @@
                                             data-numero_espacio="{{ $ticket_activo->espacio->numero }}"
                                             data-fecha_ingreso="{{ $ticket_activo->fecha_ingreso }}"
                                             data-hora_ingreso="{{ $ticket_activo->hora_ingreso }}"
+                                            data-tarifa_nombre="{{ $ticket_activo->tarifa->nombre }}"
+                                            data-tarifa_tipo="{{ $ticket_activo->tarifa->tipo }}"
                                             style="width: 100%;height:200px">
                                             <small>{{ \Carbon\Carbon::parse($ticket_activo->fecha_ingreso)->format('d-m-Y') }}</small>
                                             <small>{{ $ticket_activo->hora_ingreso }}</small>
@@ -155,8 +157,7 @@
                                         <select name="tarifa_id" id="tarifa_id" class="form-control select2">
                                             @foreach ($tarifas as $tarifa)
                                                 <option value="{{ $tarifa->id }}">Tarifa: {{ $tarifa->nombre }} -
-                                                    Tipo: {{ $tarifa->tipo }} - Cantidad: {{ $tarifa->cantidad }} -
-                                                    Costo: {{ $ajuste->divisa . ' ' . $tarifa->costo }}
+                                                    Tipo: {{ $tarifa->tipo }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -247,6 +248,14 @@
                             <b>Espacio nro:</b> <span id="numero_espacio"></span> <br>
                             <b>Fecha de ingreso:</b> <span id="fecha_ingreso"></span> <br>
                             <b>Hora de ingreso:</b> <span id="hora_ingreso"></span> <br>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <b>Datos de la Tarifa:</b><br>
+                            <b>Nombre: </b> <span id="tarifa_nombre"></span> <br>
+                            <b>Tipo: </b> <span id="tarifa_tipo"></span> <br>
                         </div>
                     </div>
                     <hr>
@@ -393,6 +402,8 @@
             var numero_espacio = $(this).data('numero_espacio');
             var fecha_ingreso = $(this).data('fecha_ingreso');
             var hora_ingreso = $(this).data('hora_ingreso');
+            var tarifa_nombre = $(this).data('tarifa_nombre');
+            var tarifa_tipo = $(this).data('tarifa_tipo');
 
             $('#ticket_id').val(ticket_id);
             $('#codigo_ticket').html(codigo);
@@ -402,12 +413,29 @@
             $('#numero_espacio').html(numero_espacio);
             $('#fecha_ingreso').html(fecha_ingreso);
             $('#hora_ingreso').html(hora_ingreso);
-
+            $('#tarifa_nombre').html(tarifa_nombre);
+            $('#tarifa_tipo').html(tarifa_tipo);
 
             ticket_a_imprimir = $(this).data('ticket-id');
 
-             var url_finalizar_ticket = "{{ url('/admin/ticket') }}/" + ticket_a_imprimir + "/finalizar_ticket";
-              $('#btn_facturar').attr('href', url_finalizar_ticket);
+            var url_finalizar_ticket = "{{ url('/admin/ticket') }}/" + ticket_a_imprimir + "/finalizar_ticket";
+            $('#btn_facturar').attr('href', url_finalizar_ticket);
+
+            // Calculo de tiempo para cancelar el ticket
+            const fechaHoraIngreso = new Date(fecha_ingreso + " " + hora_ingreso);
+            const ahora = new Date();
+            const diferenciaMinutos = Math.floor((ahora - fechaHoraIngreso) / 60000);
+
+            // Seleccionamos el botón una sola vez
+            const $botonCancelar = $('#btn_cancelar_ticket');
+
+            if (diferenciaMinutos > 10) {
+                $botonCancelar.hide();
+            } else {
+                $botonCancelar.show();
+            }
+            // alert(diferenciaMinutos)
+
 
             // $('#btn_imprimir_ticket').attr('href', urlImprimir);
             $('#modal_ocupado').modal('show');
@@ -430,7 +458,7 @@
         </script>
     @endif
 
-     @if (session('factura_id'))
+    @if (session('factura_id'))
         <script>
             var factura_id = "{{ session('factura_id') }}";
             var urlImprimir = "{{ url('/admin/factura') }}/" + factura_id;

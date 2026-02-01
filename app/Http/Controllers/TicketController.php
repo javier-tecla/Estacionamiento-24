@@ -25,7 +25,12 @@ class TicketController extends Controller
         $ajuste = Ajuste::first();
         $espacios = Espacio::all();
         $vehiculos = Vehiculo::with('cliente')->get();
-        $tarifas = Tarifa::all();
+        // $tarifas = Tarifa::all();
+        $tarifas_ids = DB::table('tarifas')
+        ->select(DB::raw('MIN(id) as id'))
+        ->groupBy('nombre','tipo')
+        ->pluck('id');
+        $tarifas = Tarifa::whereIn('id',$tarifas_ids)->get();
 
         $tickets_activos = Ticket::where('estado_ticket', 'activo')->get();
 
