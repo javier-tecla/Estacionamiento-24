@@ -252,10 +252,11 @@
                     <div class="col-md-6">
                         <div class="card card-outline card-primary">
                             <div class="card-header">
-                                <h3 class="card-title"><b>a</b></h3>
+                                <h3 class="card-title"><b>Estado de seguimiento</b></h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
+                                <canvas id="estadoEspaciosPorTickets"></canvas>
 
                             </div>
                         </div>
@@ -329,6 +330,50 @@
                                 beginAtZero: true
                             }
                         }]
+                    }
+                }
+            });
+
+            @php
+                $ticketsOcupados = 0;
+                $espaciosLibres = 0;
+                $espaciosMantenimiento = 0;
+            @endphp
+
+            @foreach ($espacios as $espacio)
+                @php
+                    $ticket_activo = $tickets_activos->firstWhere('espacio_id', $espacio->id);
+                    if ($ticket_activo) {
+                        $ticketsOcupados++;
+                    } elseif ($espacio->estado == 'libre') {
+                        $espaciosLibres++;
+                    }else{
+                        $espaciosMantenimiento++;
+                    }
+                @endphp
+            @endforeach
+
+            const ticketsOcupados = {{ $ticketsOcupados }};
+            const espaciosLibres = {{  $espaciosLibres }};
+            const espaciosMantenimiento = {{ $espaciosMantenimiento }};
+            // Gráfico de Pastel: Estado de Espacios
+            const ctxPie = document.getElementById('estadoEspaciosPorTickets').getContext('2d');
+            new Chart(ctxPie, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Ocupados por Tickets', 'Libres en Seguimiento', 'En Mantenimiento'],
+                    datasets: [{
+                        data: [ticketsOcupados, espaciosLibres, espaciosMantenimiento],
+                        backgroundColor: ['#dc3545', '#28a745', '#ffc107'], // Rojo, Verde, Amarillo
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
                     }
                 }
             });
