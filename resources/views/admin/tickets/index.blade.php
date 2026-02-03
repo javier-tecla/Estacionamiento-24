@@ -259,6 +259,45 @@
                         </div>
                     </div>
                     <hr>
+                    <form action="{{ url('/admin/ticket/actualizar_tarifa') }}" method="POST">
+                        @csrf
+                        <input type="hidden" id="ticket_id_editar_tarifa" name="ticket_id_editar_tarifa">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="placa">Modificar tarifa<sup class="text-danger">(*)</sup></label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-car"></i></span>
+                                        </div>
+                                        <select name="tarifa_id" id="tarifa_id" class="form-control" required>
+                                            <option value="" disabled selected>Seleccione una tarifa...</option>
+                                            @foreach ($tarifas as $tarifa)
+                                                <option value="{{ $tarifa->id }}">Tarifa: {{ $tarifa->nombre }} -
+                                                    Tipo: {{ $tarifa->tipo }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <div style="height: 32px;"></div>
+                                        <button type="submit" class="btn btn-success">Actualizar</button>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <b>Tiempo transcurrido:</b><br>
+                            <span id="tiempo_transcurrido"></span>
+                        </div>
+                    </div>
+                    <hr>
                     <div class="row">
                         <div class="col-md-12">
 
@@ -406,6 +445,7 @@
             var tarifa_tipo = $(this).data('tarifa_tipo');
 
             $('#ticket_id').val(ticket_id);
+            $('#ticket_id_editar_tarifa').val(ticket_id);
             $('#codigo_ticket').html(codigo);
             $('#cliente').html(cliente);
             $('#documento').html(documento);
@@ -425,6 +465,13 @@
             const fechaHoraIngreso = new Date(fecha_ingreso + " " + hora_ingreso);
             const ahora = new Date();
             const diferenciaMinutos = Math.floor((ahora - fechaHoraIngreso) / 60000);
+            const dias = Math.floor(diferenciaMinutos / (60 * 24));
+            const horasRestantes = diferenciaMinutos % (60 * 24);
+            const horas = Math.floor(horasRestantes / 60);
+            const minutos = horasRestantes % 60;
+
+            const tiempoTranscurrido = dias + " días con " + horas + " horas con " + minutos + " minutos";
+            $('#tiempo_transcurrido').html(tiempoTranscurrido);
 
             // Seleccionamos el botón una sola vez
             const $botonCancelar = $('#btn_cancelar_ticket');

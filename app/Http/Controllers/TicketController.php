@@ -107,6 +107,23 @@ class TicketController extends Controller
 
     }
 
+    public function actualizar_tarifa(Request $request)
+    {
+        // return response()->json($request->all());
+        $request->validate([
+            'ticket_id_editar_tarifa' => 'required',
+            'tarifa_id' => 'required'
+        ]);
+
+        $ticket = Ticket::find($request->ticket_id_editar_tarifa);
+        $ticket->tarifa_id = $request->tarifa_id;
+        $ticket->save();
+
+        return redirect()->route('admin.tickets.index')
+            ->with('mensaje', 'Tarifa actualizada correctamente')
+            ->with('icono', 'success');
+    }
+
     public function imprimir_ticket($id)
     {
         $ticket = Ticket::with('cliente')->find($id);
