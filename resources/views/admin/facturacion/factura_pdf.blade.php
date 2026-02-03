@@ -111,6 +111,15 @@
 
         <div class="line"></div>
 
+        <!-- Datos dem la tarifa -->
+        <div>
+             <strong>DATOS DE LA TARIFA</strong><br>
+            <b>Nombre: </b> {{ $factura->ticket->tarifa->nombre}} <br>
+            <b>Tipo: </b> {{ $factura->ticket->tarifa->tipo}} <br>
+        </div>
+
+        <div class="line"></div>
+
         <div>
             <table>
                 <thead>

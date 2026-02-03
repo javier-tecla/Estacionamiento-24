@@ -265,7 +265,7 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="form-group">
-                                    <label for="placa">Modificar tarifa<sup class="text-danger">(*)</sup></label>
+                                    <label for="placa">Modificar tarifa</label>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-car"></i></span>
@@ -284,8 +284,8 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <div style="height: 32px;"></div>
-                                        <button type="submit" class="btn btn-success">Actualizar</button>
-                                    
+                                    <button type="submit" class="btn btn-success">Actualizar</button>
+
                                 </div>
                             </div>
                         </div>
@@ -295,6 +295,16 @@
                         <div class="col-md-12">
                             <b>Tiempo transcurrido:</b><br>
                             <span id="tiempo_transcurrido"></span>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 style="font-size: 20pt; color:#0921a8">
+                                <b>Costo total a pagar: <span id="costo_total_a_pagar"></span>
+                                <i class="fas fa-money-bill-wave"></i></b>
+                                
+                            </h2>
                         </div>
                     </div>
                     <hr>
@@ -476,11 +486,29 @@
             // Seleccionamos el botón una sola vez
             const $botonCancelar = $('#btn_cancelar_ticket');
 
+            const modal = $('#modal_ocupado');
+            const $botonFacturar = modal.find('#btn_facturar');
+            const $costoTotal = modal.find('#costo_total_a_pagar');
+
             if (diferenciaMinutos > 10) {
                 $botonCancelar.hide();
+                $botonFacturar.show();
+                $costoTotal.show();
             } else {
                 $botonCancelar.show();
+                $botonFacturar.hide();
+                $costoTotal.hide();
             }
+
+            $.ajax({
+                url: "{{ url('/admin/ticket') }}/" + ticket_id + "/calcular_monto",
+                type: 'GET',
+                success: function(data){
+                    $('#costo_total_a_pagar').html(data);
+                },error: function(){
+                    $('$costo_total_a_pagar').html('<p>Error al cargar la información</p>');
+                }
+            });
             // alert(diferenciaMinutos)
 
 
