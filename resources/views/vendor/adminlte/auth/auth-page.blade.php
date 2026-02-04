@@ -27,12 +27,18 @@
 @section('body')
     <div class="{{ $authType }}-box">
 
+        <center>
+            <img src="{{ url('/images/aparcamiento.gif') }}" width="120" alt="">
+        </center>
+
         {{-- Logo --}}
         <div class="{{ $authType }}-logo">
             <a href="{{ $dashboardUrl }}">
 
+                <h2>{{ $ajuste = \App\Models\Ajuste::first() ? \App\Models\Ajuste::first()->nombre : 'Sistema de estacionamiento 24' }}</h2>
+
                 {{-- Logo Image --}}
-                @if (config('adminlte.auth_logo.enabled', false))
+                {{-- @if (config('adminlte.auth_logo.enabled', false))
                     <img src="{{ asset(config('adminlte.auth_logo.img.path')) }}"
                          alt="{{ config('adminlte.auth_logo.img.alt') }}"
                          @if (config('adminlte.auth_logo.img.class', null))
@@ -47,10 +53,10 @@
                 @else
                     <img src="{{ asset(config('adminlte.logo_img')) }}"
                          alt="{{ config('adminlte.logo_img_alt') }}" height="50">
-                @endif
+                @endif --}}
 
                 {{-- Logo Label --}}
-                {!! config('adminlte.logo', '<b>Admin</b>LTE') !!}
+                {{-- {!! config('adminlte.logo', '<b>Admin</b>LTE') !!} --}}
 
             </a>
         </div>

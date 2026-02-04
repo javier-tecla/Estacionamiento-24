@@ -139,7 +139,7 @@
                         <!-- small card -->
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h4>{{ $ajuste->divisa . ' ' . $ingreso_hoy }}</h4>
+                                <h4>{{ $ajuste->divisa ?? '' . ' ' . $ingreso_hoy }}</h4>
 
                                 <p>Ingresos de hoy</p>
                             </div>
@@ -153,7 +153,7 @@
                         <!-- small card -->
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h4>{{ $ajuste->divisa . ' ' . $ingreso_ayer }}</h4>
+                                <h4>{{ $ajuste->divisa ?? '' . ' ' . $ingreso_ayer }}</h4>
 
                                 <p>Ingresos de ayer</p>
                             </div>
@@ -167,7 +167,7 @@
                         <!-- small card -->
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h4>{{ $ajuste->divisa . ' ' . $ingreso_esta_semana }}</h4>
+                                <h4>{{ $ajuste->divisa ?? '' . ' ' . $ingreso_esta_semana }}</h4>
 
                                 <p>Ingresos actual semana</p>
                             </div>
@@ -181,7 +181,7 @@
                         <!-- small card -->
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h4>{{ $ajuste->divisa . ' ' . $ingreso_semana_anterior }}</h4>
+                                <h4>{{ $ajuste->divisa ?? '' . ' ' . $ingreso_semana_anterior }}</h4>
 
                                 <p>Ingresos semana anterior</p>
                             </div>
@@ -197,7 +197,7 @@
                         <!-- small card -->
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h4>{{ $ajuste->divisa . ' ' . $ingreso_este_mes }}</h4>
+                                <h4>{{ $ajuste->divisa ?? '' . ' ' . $ingreso_este_mes }}</h4>
 
                                 <p>Ingresos mes actual</p>
                             </div>
@@ -211,7 +211,7 @@
                         <!-- small card -->
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h4>{{ $ajuste->divisa . ' ' . $ingreso_mes_anterior }}</h4>
+                                <h4>{{ $ajuste->divisa ?? '' . ' ' . $ingreso_mes_anterior }}</h4>
 
                                 <p>Ingresos mes anterior</p>
                             </div>
@@ -225,7 +225,7 @@
                         <!-- small card -->
                         <div class="small-box bg-danger">
                             <div class="inner">
-                                <h4>{{ $ajuste->divisa . ' ' . $ingreso_total }}</h4>
+                                <h4>{{ $ajuste->divisa ?? '' . ' ' . $ingreso_total }}</h4>
 
                                 <p>Ingresos total en el sistema</p>
                             </div>

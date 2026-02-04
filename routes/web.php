@@ -7,6 +7,9 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::get('/register', function() {
+    abort(403, 'Registro no permintido');
+})->name('register');
 
 
 
@@ -80,4 +83,8 @@ Route::delete('/admin/ticket/{id}', [App\Http\Controllers\TicketController::clas
 
 // Rutas para facturacion
 Route::get('/admin/factura/{id}', [App\Http\Controllers\FacturacionController::class,'imprimir_factura'])->name('admin.facturacion.imprimir_factura')->middleware('auth');
+
+// Rutas para reportes
+Route::get('/admin/reportes', [App\Http\Controllers\ReporteController::class,'index'])->name('admin.reportes.index')->middleware('auth');
+Route::get('/admin/reporte/semanal', [App\Http\Controllers\ReporteController::class,'reporte_semanal'])->name('admin.reportes.reporte_semanal')->middleware('auth');
 

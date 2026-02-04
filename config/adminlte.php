@@ -356,6 +356,13 @@ return [
             'classes' => 'bg-blue text-white',
             'active' => ['admin/ticket*'],
         ],
+        [
+            'text' => 'Reportes',
+            'url' => 'admin/reportes',
+            'icon' => 'fas fa-fw fa-chart-line',
+            'classes' => 'bg-blue text-white',
+            'active' => ['admin/reporte*'],
+        ],
 
         // Sidebar items:
         ['header' => 'Ajustes del sistema'],
