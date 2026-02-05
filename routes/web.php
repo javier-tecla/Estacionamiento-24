@@ -88,4 +88,5 @@ Route::get('/admin/factura/{id}', [App\Http\Controllers\FacturacionController::c
 Route::get('/admin/reportes', [App\Http\Controllers\ReporteController::class,'index'])->name('admin.reportes.index')->middleware('auth');
 Route::get('/admin/reporte/semanal', [App\Http\Controllers\ReporteController::class,'reporte_semanal'])->name('admin.reportes.reporte_semanal')->middleware('auth');
 Route::get('/admin/reporte/mensual', [App\Http\Controllers\ReporteController::class,'reporte_mensual'])->name('admin.reportes.reporte_mensual')->middleware('auth');
+Route::get('/admin/reporte/ingresos_diarios', [App\Http\Controllers\ReporteController::class,'ingresos_diarios'])->name('admin.reportes.ingresos_diarios')->middleware('auth');
 
