@@ -16,6 +16,9 @@ Route::get('/register', function() {
 Route::get('/home', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.index.home')->middleware('auth');
 Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.index')->middleware('auth');
 
+// Rutas para los perfiles
+Route::get('/perfil', [App\Http\Controllers\UserController::class, 'perfil'])->name('admin.usuarios.perfil')->middleware('auth');
+
 
 // Rutas para ajustes
 Route::get('/admin/ajustes', [App\Http\Controllers\AjusteController::class, 'index'])->name('admin.ajustes.index')->middleware('auth');

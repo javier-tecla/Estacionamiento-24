@@ -34,13 +34,18 @@ class UserController extends Controller
         return view('admin.usuarios.create', compact('roles'));
     }
 
+    public function perfil()
+    {
+        echo "hola";
+    }
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         // return response()->json($request->all());
-        $request->validate([
+        // $request->validate([
             'rol' => 'required',
             'email' => 'required|string|email|max:255|unique:users',
             'nombres' => 'required|string|max:255',
