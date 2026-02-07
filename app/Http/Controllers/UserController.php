@@ -36,7 +36,14 @@ class UserController extends Controller
 
     public function perfil()
     {
-        echo "hola";
+        $roles = Role::all();
+        $usuario = User::find(Auth::user()->id);
+        return view('admin.usuarios.perfil', compact('roles','usuario'));
+    }
+
+    public function actualizar_perfil(Request $request)
+    {
+        return response()->json($request->all());
     }
 
     /**
@@ -45,7 +52,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         // return response()->json($request->all());
-        // $request->validate([
+        $request->validate([
             'rol' => 'required',
             'email' => 'required|string|email|max:255|unique:users',
             'nombres' => 'required|string|max:255',

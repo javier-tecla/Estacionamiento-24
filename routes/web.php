@@ -18,6 +18,7 @@ Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->na
 
 // Rutas para los perfiles
 Route::get('/perfil', [App\Http\Controllers\UserController::class, 'perfil'])->name('admin.usuarios.perfil')->middleware('auth');
+Route::post('/perfil/update', [App\Http\Controllers\UserController::class, 'actualizar_perfil'])->name('admin.usuarios.actualizar_perfil')->middleware('auth');
 
 
 // Rutas para ajustes
