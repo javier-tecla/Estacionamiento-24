@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
@@ -13,6 +14,7 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::all();
+
         return view('admin.roles.index', compact('roles'));
     }
 
@@ -34,14 +36,14 @@ class RoleController extends Controller
             'name' => 'required|string|max:255|unique:roles,name',
         ]);
 
-        $rol = new Role();
+        $rol = new Role;
         $rol->name = strtoupper($request->name);
         $rol->save();
 
         return redirect()->route('admin.roles.index')
-        ->with('mensaje', 'Rol guardado correctamente')
-        ->with('icono', 'success');
-        
+            ->with('mensaje', 'Rol guardado correctamente')
+            ->with('icono', 'success');
+
     }
 
     /**
@@ -58,7 +60,27 @@ class RoleController extends Controller
     public function edit($id)
     {
         $role = Role::find($id);
+
         return view('admin.roles.edit', compact('role'));
+    }
+
+    public function permisos($id)
+    {
+        $role = Role::find($id);
+        $permisos = Permission::all()->groupBy(function ($permiso) {
+            if (stripos($permiso->name, 'ajuste') !== false) {return 'Ajustes'; }
+            if (stripos($permiso->name, 'role') !== false) {return 'Roles'; }
+            if (stripos($permiso->name, 'usuario') !== false) {return 'Usuarios'; }
+            if (stripos($permiso->name, 'espacio') !== false) {return 'Espacios'; }
+            if (stripos($permiso->name, 'tarifas') !== false) {return 'Tarifas'; }
+            if (stripos($permiso->name, 'cliente') !== false) {return 'Clientes'; }
+            if (stripos($permiso->name, 'vehiculo') !== false) {return 'Vehiculos'; }
+            if (stripos($permiso->name, 'tickets') !== false) {return 'Tickets'; }
+            if (stripos($permiso->name, 'facturacion') !== false) {return 'Facturaciones'; }
+            if (stripos($permiso->name, 'reporte') !== false) {return 'Reportes'; }
+        });
+
+        return view('admin.roles.permisos', compact('role', 'permisos'));
     }
 
     /**
@@ -76,8 +98,8 @@ class RoleController extends Controller
         $rol->save();
 
         return redirect()->route('admin.roles.index')
-        ->with('mensaje', 'Rol modificado correctamente')
-        ->with('icono', 'success');
+            ->with('mensaje', 'Rol modificado correctamente')
+            ->with('icono', 'success');
     }
 
     /**
@@ -89,7 +111,7 @@ class RoleController extends Controller
         $rol->delete();
 
         return redirect()->route('admin.roles.index')
-        ->with('mensaje', 'Rol eliminado correctamente')
-        ->with('icono', 'success');
+            ->with('mensaje', 'Rol eliminado correctamente')
+            ->with('icono', 'success');
     }
 }

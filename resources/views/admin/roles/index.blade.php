@@ -47,7 +47,7 @@
                                                 <td style="text-align: center">{{ $loop->iteration }}</td>
                                                 <td>{{ $role->name }}</td>
                                                 <td class="d-flex justify-content-center">
-                                                    <a href="#" class="btn btn-xs btn-warning mx-1"><i class="fas fa-check"></i> Asignar permisos</a>
+                                                    <a href="{{ url('/admin/rol/'.$role->id.'/permisos') }}" class="btn btn-xs btn-warning mx-1"><i class="fas fa-check"></i> Asignar permisos</a>
                                                     <a href="{{ url('/admin/rol/'.$role->id.'/edit') }}" class="btn btn-xs btn-success mx-1"><i class="fas fa-edit"></i> Editar</a>
                                                     <form action="{{ url('/admin/rol/'.$role->id) }}" method="POST"
                                                         id="miFormulario{{ $role->id }}">
