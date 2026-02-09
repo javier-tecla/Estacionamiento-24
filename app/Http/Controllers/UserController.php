@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\RegistroUsuarioMail;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Mail\RegistroUsuarioMail;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
-use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -38,12 +39,73 @@ class UserController extends Controller
     {
         $roles = Role::all();
         $usuario = User::find(Auth::user()->id);
-        return view('admin.usuarios.perfil', compact('roles','usuario'));
+
+        return view('admin.usuarios.perfil', compact('roles', 'usuario'));
     }
 
     public function actualizar_perfil(Request $request)
     {
-        return response()->json($request->all());
+        // return response()->json($request->all());
+
+        $usuario = User::find($request->id);
+
+        $request->validate([
+
+            'nombres' => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,'.$request->id,
+            'tipo_documento' => 'required|in:DNI,Carnet de Extranjería,Pasaporte,CI',
+            'numero_documento' => 'required|string|max:20|unique:users,numero_documento,'.$request->id,
+            'celular' => 'required|string|max:20',
+            'fecha_nacimiento' => 'required|date',
+            'genero' => 'required|in:Masculino,Femenino,Otro',
+            'direccion' => 'required|string|max:255',
+            'contacto_nombre' => 'required|string|max:255',
+            'contacto_telefono' => 'required|string|max:20',
+            'contacto_parentesco' => 'required|string|max:100',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'password_actual' => 'nullable|string',
+            'password_nueva' => 'nullable|string|min:8|required_with:password_actual',
+            'password_confirmacion' => 'nullable|string|same:password_nueva|required_with:password_nueva',
+        ]);
+
+        if ($request->hasFile('foto')) {
+            if ($usuario->foto && Storage::disk('public')->exists('fotos/'.$usuario->foto)) {
+                Storage::disk('public')->delete('fotos/'.$usuario->foto);
+            }
+            $fotoPath = $request->file('foto')->store('fotos', 'public');
+            $usuario->foto = basename($fotoPath);
+        }
+
+        if($request->filled('password_actual')){
+            if(!password_verify($request->password_actual, $usuario->password)){
+                return redirect()->back()
+                ->with('mensaje', 'La contraseña actual es incorrecta')
+                ->with('icono', 'error');
+            }else{
+                $usuario->password = $request->password_nueva;
+            }
+        }
+
+        $usuario->name = $request->nombres.' '.$request->apellidos;
+        $usuario->email = $request->email;
+        $usuario->nombres = $request->nombres;
+        $usuario->apellidos = $request->apellidos;
+        $usuario->tipo_documento = $request->tipo_documento;
+        $usuario->numero_documento = $request->numero_documento;
+        $usuario->celular = $request->celular;
+        $usuario->fecha_nacimiento = $request->fecha_nacimiento;
+        $usuario->genero = $request->genero;
+        $usuario->direccion = $request->direccion;
+        $usuario->contacto_nombre = $request->contacto_nombre;
+        $usuario->contacto_telefono = $request->contacto_telefono;
+        $usuario->contacto_parentesco = $request->contacto_parentesco;
+
+        $usuario->save();
+
+        return redirect()->back()
+            ->with('mensaje', 'Perfil actualizado correctamente')
+            ->with('icono', 'success');
     }
 
     /**
@@ -105,7 +167,7 @@ class UserController extends Controller
         $usuario->estado = true;
         $usuario->save();
 
-         return redirect()->route('admin.usuarios.index')
+        return redirect()->route('admin.usuarios.index')
             ->with('mensaje', 'Usuario reustarado correctamente')
             ->with('icono', 'success');
     }
