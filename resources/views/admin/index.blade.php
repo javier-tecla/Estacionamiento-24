@@ -24,117 +24,134 @@
 
             <div class="col-md-9">
                 <div class="row">
-                    <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box zoomP">
-                            <span class="info-box-icon bg-info">
-                                <a href="{{ url('/admin/roles') }}">
-                                    <img src="{{ url('/images/role.gif') }}" width="100%" alt="">
-                                </a>
-                            </span>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">Roles registrados</span>
-                                <span class="info-box-number">{{ $total_roles }} roles</span>
+
+                    @can('admin.roles.index')
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box zoomP">
+                                <span class="info-box-icon bg-info">
+                                    <a href="{{ url('/admin/roles') }}">
+                                        <img src="{{ url('/images/role.gif') }}" width="100%" alt="">
+                                    </a>
+                                </span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Roles registrados</span>
+                                    <span class="info-box-number">{{ $total_roles }} roles</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endcan
 
-                    <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box zoomP">
-                            <span class="info-box-icon bg-info">
-                                <a href="{{ url('/admin/usuarios') }}">
-                                    <img src="{{ url('/images/usuario.gif') }}" width="100%" alt="">
-                                </a>
-                            </span>
+                    @can('admin.usuarios.index')
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box zoomP">
+                                <span class="info-box-icon bg-info">
+                                    <a href="{{ url('/admin/usuarios') }}">
+                                        <img src="{{ url('/images/usuario.gif') }}" width="100%" alt="">
+                                    </a>
+                                </span>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">Usuarios registrados</span>
-                                <span class="info-box-number">{{ $total_usuarios }} usuarios</span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Usuarios registrados</span>
+                                    <span class="info-box-number">{{ $total_usuarios }} usuarios</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endcan
 
-                    <div class="col-md-6 col-sm-6 col-12">
-                        <div class="info-box zoomP">
-                            <span class="info-box-icon bg-info">
-                                <a href="{{ url('/admin/espacios') }}">
-                                    <img src="{{ url('/images/aparcamiento.gif') }}" width="100%" alt="">
-                                </a>
-                            </span>
+                    @can('admin.espacios.index')
+                        <div class="col-md-6 col-sm-6 col-12">
+                            <div class="info-box zoomP">
+                                <span class="info-box-icon bg-info">
+                                    <a href="{{ url('/admin/espacios') }}">
+                                        <img src="{{ url('/images/aparcamiento.gif') }}" width="100%" alt="">
+                                    </a>
+                                </span>
 
-                            <div class="info-box-content text-sm"">
-                                <span class="info-box-text">{{ $total_espacios }} Espacios registrados</span>
-                                <span class="info-box-number">{{ $total_espacios_libres }} libres |
-                                    {{ $total_espacios_ocupados }} ocupados | {{ $total_espacios_mantenimiento }} en
-                                    mantenimiento</span>
+                                <div class="info-box-content text-sm"">
+                                    <span class="info-box-text">{{ $total_espacios }} Espacios registrados</span>
+                                    <span class="info-box-number">{{ $total_espacios_libres }} libres |
+                                        {{ $total_espacios_ocupados }} ocupados | {{ $total_espacios_mantenimiento }} en
+                                        mantenimiento</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endcan
                 </div>
 
                 <div class="row">
-                    <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box zoomP">
-                            <span class="info-box-icon bg-info">
-                                <a href="{{ url('/admin/tarifas') }}">
-                                    <img src="{{ url('/images/tarifas.gif') }}" width="100%" alt="">
-                                </a>
-                            </span>
+                    @can('admin.tarifas.index')
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box zoomP">
+                                <span class="info-box-icon bg-info">
+                                    <a href="{{ url('/admin/tarifas') }}">
+                                        <img src="{{ url('/images/tarifas.gif') }}" width="100%" alt="">
+                                    </a>
+                                </span>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">Tarifas</span>
-                                <span class="info-box-number">{{ $total_tarifas }} tarifas</span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Tarifas</span>
+                                    <span class="info-box-number">{{ $total_tarifas }} tarifas</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endcan
 
-                    <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box zoomP">
-                            <span class="info-box-icon bg-info">
-                                <a href="{{ url('/admin/clientes') }}">
-                                    <img src="{{ url('/images/cliente.gif') }}" width="100%" alt="">
-                                </a>
-                            </span>
+                    @can('admin.clientes.index')
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box zoomP">
+                                <span class="info-box-icon bg-info">
+                                    <a href="{{ url('/admin/clientes') }}">
+                                        <img src="{{ url('/images/cliente.gif') }}" width="100%" alt="">
+                                    </a>
+                                </span>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">Clientes registrados</span>
-                                <span class="info-box-number">{{ $total_clientes }} clientes</span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Clientes registrados</span>
+                                    <span class="info-box-number">{{ $total_clientes }} clientes</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endcan
 
-                    <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box zoomP">
-                            <span class="info-box-icon bg-info">
-                                <a href="{{ url('/admin/vehiculos') }}">
-                                    <img src="{{ url('/images/coche.gif') }}" width="100%" alt="">
-                                </a>
-                            </span>
+                    @can('admin.vehiculos.index')
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box zoomP">
+                                <span class="info-box-icon bg-info">
+                                    <a href="{{ url('/admin/vehiculos') }}">
+                                        <img src="{{ url('/images/coche.gif') }}" width="100%" alt="">
+                                    </a>
+                                </span>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">Vehículos registrados</span>
-                                <span class="info-box-number">{{ $total_vehiculos }} Vehículos</span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Vehículos registrados</span>
+                                    <span class="info-box-number">{{ $total_vehiculos }} Vehículos</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endcan
 
-                    <div class="col-md-3 col-sm-6 col-12">
-                        <div class="info-box zoomP">
-                            <span class="info-box-icon bg-info">
-                                <a href="{{ url('/admin/tickets') }}">
-                                    <img src="{{ url('/images/boleto.gif') }}" width="100%" alt="">
-                                </a>
-                            </span>
+                    @can('admin.tickets.index')
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box zoomP">
+                                <span class="info-box-icon bg-info">
+                                    <a href="{{ url('/admin/tickets') }}">
+                                        <img src="{{ url('/images/boleto.gif') }}" width="100%" alt="">
+                                    </a>
+                                </span>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">Tickets activos</span>
-                                <span class="info-box-number">{{ $total_tickets_activos }} Tickets</span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Tickets activos</span>
+                                    <span class="info-box-number">{{ $total_tickets_activos }} Tickets</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endcan
                 </div>
 
-                <div class="row">
+               @can('admin.reportes.index')
+                    <div class="row">
                     <div class="col-md-3 col-6">
                         <!-- small card -->
                         <div class="small-box bg-info">
@@ -262,6 +279,7 @@
                         </div>
                     </div>
                 </div>
+               @endcan
 
             </div>
 
@@ -347,14 +365,14 @@
                         $ticketsOcupados++;
                     } elseif ($espacio->estado == 'libre') {
                         $espaciosLibres++;
-                    }else{
+                    } else {
                         $espaciosMantenimiento++;
                     }
                 @endphp
             @endforeach
 
             const ticketsOcupados = {{ $ticketsOcupados }};
-            const espaciosLibres = {{  $espaciosLibres }};
+            const espaciosLibres = {{ $espaciosLibres }};
             const espaciosMantenimiento = {{ $espaciosMantenimiento }};
             // Gráfico de Pastel: Estado de Espacios
             const ctxPie = document.getElementById('estadoEspaciosPorTickets').getContext('2d');

@@ -47,6 +47,13 @@
                                 </div>
                             @endforeach
                         </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12 d-flex justify-content-between">
+                                <a href="{{ url('/admin/roles') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Regresar</a>
+                               <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button> 
+                            </div>
+                        </div>
                     </form>
 
 
