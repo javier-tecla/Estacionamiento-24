@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -120,6 +121,15 @@ class RoleController extends Controller
     public function destroy($id)
     {
         $rol = Role::find($id);
+
+        $usuarios_asociados = User::role($rol->name)->count();
+
+        if($usuarios_asociados > 0){
+            return redirect()->route('admin.roles.index')
+            ->with('mensaje', 'No se puede eliminar el rol: '.$rol->name.' porque tiene '.$usuarios_asociados.' usuarios asociados')
+            ->with('icono', 'error');
+        }
+        
         $rol->delete();
 
         return redirect()->route('admin.roles.index')
