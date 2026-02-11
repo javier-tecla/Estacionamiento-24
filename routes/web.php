@@ -89,6 +89,7 @@ Route::delete('/admin/ticket/{id}', [App\Http\Controllers\TicketController::clas
 
 // Rutas para facturacion
 Route::get('/admin/factura/{id}', [App\Http\Controllers\FacturacionController::class,'imprimir_factura'])->name('admin.facturacion.imprimir_factura')->middleware('auth','can:admin.facturacion.imprimir_factura');
+Route::get('/admin/facturacion', [App\Http\Controllers\FacturacionController::class,'index'])->name('admin.facturacion.index')->middleware('auth','can:admin.facturacion.index');
 
 // Rutas para reportes
 Route::get('/admin/reportes', [App\Http\Controllers\ReporteController::class,'index'])->name('admin.reportes.index')->middleware('auth','can:admin.reportes.index');

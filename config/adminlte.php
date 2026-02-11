@@ -363,6 +363,14 @@ return [
             'active' => ['admin/ticket*'],
         ],
         [
+            'can' => 'admin.facturacion.index',
+            'text' => 'Facturación',
+            'url' => 'admin/facturacion',
+            'icon' => 'fas fa-fw fa-file-invoice-dollar',
+            'classes' => 'bg-blue text-white',
+            'active' => ['admin/factura*'],
+        ],
+        [
             'can' => 'admin.reportes.index',
             'text' => 'Reportes',
             'url' => 'admin/reportes',

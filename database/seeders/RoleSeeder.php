@@ -77,6 +77,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'admin.tickets.destroy'])->syncRoles($super_admin);
 
         Permission::create(['name' => 'admin.facturacion.imprimir_factura'])->syncRoles($super_admin);
+        Permission::create(['name' => 'admin.facturacion.index'])->syncRoles($super_admin);
 
         Permission::create(['name' => 'admin.reportes.index'])->syncRoles($super_admin);
         Permission::create(['name' => 'admin.reportes.reporte_semanal'])->syncRoles($super_admin);

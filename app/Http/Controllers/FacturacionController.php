@@ -18,7 +18,9 @@ class FacturacionController extends Controller
      */
     public function index()
     {
-        //
+        $ajuste = Ajuste::first();
+        $facturas = Facturacion::orderBy('id', 'desc')->get();
+        return view('admin.facturacion.index', compact('facturas','ajuste'));
     }
 
     public function imprimir_factura($id)
