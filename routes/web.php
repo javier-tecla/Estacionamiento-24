@@ -73,9 +73,9 @@ Route::delete('/admin/cliente/{id}', [App\Http\Controllers\ClienteController::cl
 
 // Rutas para clientes - vehiculos
 Route::get('/admin/vehiculos', [App\Http\Controllers\VehiculoController::class, 'index'])->name('admin.vehiculos.index')->middleware('auth','can:admin.vehiculos.index');
-Route::post('/admin/clientes/vehiculos/create', [App\Http\Controllers\VehiculoController::class, 'store'])->name('admin.clientes.vehiculos.store')->middleware('auth','can:admin.vehiculos.store');
-Route::put('/admin/clientes/vehiculo/{id}', [App\Http\Controllers\VehiculoController::class, 'update'])->name('admin.clientes.vehiculos.update')->middleware('auth','can:admin.vehiculos.update');
-Route::delete('/admin/clientes/vehiculo/{id}', [App\Http\Controllers\VehiculoController::class, 'destroy'])->name('admin.clientes.vehiculos.destroy')->middleware('auth','can:admin.vehiculos.destroy');
+Route::post('/admin/clientes/vehiculos/create', [App\Http\Controllers\VehiculoController::class, 'store'])->name('admin.clientes.vehiculos.store')->middleware('auth','can:admin.clientes.vehiculos.store');
+Route::put('/admin/clientes/vehiculo/{id}', [App\Http\Controllers\VehiculoController::class, 'update'])->name('admin.clientes.vehiculos.update')->middleware('auth','can:admin.clientes.vehiculos.update');
+Route::delete('/admin/clientes/vehiculo/{id}', [App\Http\Controllers\VehiculoController::class, 'destroy'])->name('admin.clientes.vehiculos.destroy')->middleware('auth','can:admin.clientes.vehiculos.destroy');
 
 // Rutas para tickets
 Route::get('/admin/tickets', [App\Http\Controllers\TicketController::class,'index'])->name('admin.tickets.index')->middleware('auth','can:admin.tickets.index');
